@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  main:
+    build: .
+    restart: unless-stopped
+    privileged: false
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "34567:22"
+      - "8000:8000"
+      - "5000:5000"
+    environment:
+      - EDITOR=vim
+    volumes:
+      - ./unix:/home/unix
+    networks:
+        default:
+
+networks:
+    default:
