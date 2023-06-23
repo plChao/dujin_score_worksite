@@ -4,7 +4,7 @@
 |-|-|
 |石昀翰|yunhans523@gmail.com|
 |趙秉濂|plchao0415@gmail.com|
-|施雅青|alicia.cs08@gmail.com|
+|施雅青|alicia.cs08@nctu.edu.tw|
 ## 步驟主旨
 1. 有一個環境可以架設 website
 ## 步驟方法
