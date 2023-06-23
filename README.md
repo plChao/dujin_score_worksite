@@ -1,4 +1,8 @@
 # dujin_score_worksite
+## 成員 email
+|名字|gmail|
+|-|-|
+|趙秉濂|plchao0415@gmail.com|
 ## 步驟主旨
 1. 有一個環境可以架設 website
 ## 步驟方法
