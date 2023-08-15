@@ -97,11 +97,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`actual_exam_situation` (
   UNIQUE INDEX `score_id_UNIQUE` (`score_id` ASC) VISIBLE,
   INDEX `exam_id_fk_idx` (`exam_id` ASC) VISIBLE,
   INDEX `article_id_fk_idx` (`article_id` ASC) VISIBLE,
-  -- CONSTRAINT `exam_id_fk`
-  --   FOREIGN KEY (`exam_id`)
-  --   REFERENCES `mydb`.`all_examinee_info` (`exam_id`)
-  --   ON DELETE NO ACTION
-  --   ON UPDATE NO ACTION,
+  CONSTRAINT `exam_id_fk`
+    FOREIGN KEY (`exam_id`)
+    REFERENCES `mydb`.`all_examinee_info` (`exam_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `article_id_fk`
     FOREIGN KEY (`article_id`)
     REFERENCES `mydb`.`article_info` (`article_id`)
