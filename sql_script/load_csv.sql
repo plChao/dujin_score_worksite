@@ -42,5 +42,5 @@ fields terminated by ','
 enclosed by '"'
 lines terminated by '\n'
 ignore 1 lines
-(@exam_id,@exam_date,@exam_group,@examiner_name)
-set `exam_id`=@exam_id,`exam_date`=@exam_date,`exam_group`=@exam_group,`examiner_name`=@examiner_name;
+(@exam_id,@exam_date,@exam_group)
+set `exam_id`=@exam_id,`exam_date`=@exam_date,`exam_group`=@exam_group;

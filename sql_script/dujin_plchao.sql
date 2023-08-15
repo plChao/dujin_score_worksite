@@ -120,7 +120,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`exams` (
   `exam_id` VARCHAR(45) NOT NULL,
   `exam_date` VARCHAR(45) NOT NULL,
   `exam_group` INT NOT NULL,
-  `examiner_name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`exam_group_id`),
   INDEX `exam_id_fk_idx` (`exam_id` ASC) VISIBLE,
   CONSTRAINT `exams_exam_id_fk`
