@@ -1,0 +1,6 @@
+# 執行 mysql 在可以 load csv 的狀況
+mysql --local-infile=1 -u root -p
+# 在 mysql > 下
+SET GLOBAL local_infile=1;
+source dujin_plchao.sql;
+source load_csv.sql;
