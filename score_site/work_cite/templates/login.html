@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="login_container">
-    <form class="login_form" action="">
+    <form class="login_form" action="" method=POST>
+        {% csrf_token %}
         <div class="text_input">
             <p>帳號</p>
-            <input type="text" name="account" required="required">
+            <input type="text" name="username" required="required">
         </div>
         <div class="text_input">
             <p>密碼</p>
