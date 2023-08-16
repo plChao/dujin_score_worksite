@@ -1,0 +1,14 @@
+{% load static %}
+<nav>
+    <label class="logo">
+        <a href="{% url 'index' %}">讀經會考工作站</a>
+    </label>
+    <input type="checkbox" id="check">
+    <label for="check">
+        <i class="material-symbols-rounded menubtn">menu</i>
+    </label>
+    <ul>
+        <li><a class="nav_link_congrats active" href="#">頒獎名單</a></li>
+        <li class="nav_link_login"><a class="nav_link_login" href="{% url 'login' %}">評鑑老師登入</a></li>
+    </ul>
+</nav>

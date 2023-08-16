@@ -1,80 +1,55 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>首頁</title>
-</head>
-<body>
-    <nav>
-        <label class="logo">
-            <a href="index.html">讀經會考工作站</a>
-        </label>
-        <input type="checkbox" id="check">
-        <label for="check">
-            <i class="material-symbols-rounded menubtn">menu</i>
-        </label>
-        <ul>
-            <li><a class="nav_link_congrats active" href="#">頒獎名單</a></li>
-            <li class="nav_link_login"><a class="nav_link_login" href="login.html">評鑑老師登入</a></li>
-        </ul>
-    </nav>
-    <main>
-        <div>
-            <div class="student_container">
-                <h3>學生狀態</h3>
-                <div class="student">
-                    <div>
-                        <p>已報到</p>
-                        <h2>350/355</h2>
-                    </div>
-                    <div>
-                        <p>已完成考試</p>
-                        <h2>202/355</h2>
-                    </div>
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <div class="student_container">
+        <h3>學生狀態</h3>
+        <div class="student">
+            <div>
+                <p>已報到</p>
+                <h2>350/355</h2>
+            </div>
+            <div>
+                <p>已完成考試</p>
+                <h2>202/355</h2>
+            </div>
+        </div>
+    </div>
+    <div class="classroom_container">
+        <h3>考過段數統計</h3>
+        <div class="classroom">
+            <div class="each_classroom">
+                <p>X壇</p>
+                <div class="bar">
+                    <span class="x">
+                        <p>90</p>
+                    </span>
                 </div>
             </div>
-            <div class="classroom_container">
-                <h3>考過段數統計</h3>
-                <div class="classroom">
-                    <div class="each_classroom">
-                        <p>X壇</p>
-                        <div class="bar">
-                            <span class="x">
-                                <p>90</p>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="each_classroom">
-                        <p>Y壇</p>
-                        <div class="bar">
-                            <span class="y">
-                                <p>30</p>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="each_classroom">
-                        <p>Z讀經班</p>
-                        <div class="bar">
-                            <span class="z">
-                                <p>60</p>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="each_classroom">
-                        <p>ZZZ讀經班</p>
-                        <div class="bar">
-                            <span class="zzz">
-                                <p>25</p>
-                            </span>
-                        </div>
-                    </div>
+            <div class="each_classroom">
+                <p>Y壇</p>
+                <div class="bar">
+                    <span class="y">
+                        <p>30</p>
+                    </span>
+                </div>
+            </div>
+            <div class="each_classroom">
+                <p>Z讀經班</p>
+                <div class="bar">
+                    <span class="z">
+                        <p>60</p>
+                    </span>
+                </div>
+            </div>
+            <div class="each_classroom">
+                <p>ZZZ讀經班</p>
+                <div class="bar">
+                    <span class="zzz">
+                        <p>25</p>
+                    </span>
                 </div>
             </div>
         </div>
-    </main>
-</body>
-</html>
+    </div>
+</div>
+{% endblock %}
