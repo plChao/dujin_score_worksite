@@ -5,20 +5,38 @@
 |石昀翰|yunhans523@gmail.com|
 |趙秉濂|plchao0415@gmail.com|
 |施雅青|alicia.cs08@nctu.edu.tw|
-## 步驟主旨
-1. 有一個環境可以架設 website
-## 步驟方法
-1. 決定作業系統
-2. 從原始資料跑 dataclean 的 python 檔，或是直接從[2023_table](https://drive.google.com/drive/folders/13035SoMf9-EhNEUgQAeaH3n2IDv18NtF?usp=sharing)下載後放到同名資料夾
-4. 安裝 mysql
-## linux / MAC
-1. 執行 python venv 虛擬環境
-    ```=1
-    . worksite_env/bin/activate
-    ```
-2. 安裝 mysql，[參考資料](https://ithelp.ithome.com.tw/articles/10270777)
-    ```
-    
-    ```
-## windows
-1. 待測試
+## 主旨
+1. 架設 website 供讀經會考評分使用
+## 架設環境步驟
+1. 安裝 docker
+```
+$ docker -v
+// 測試安裝成功
+// Docker version 20.10.14, build a224086
+```
+3. 下載 [docker images](https://drive.google.com/file/d/18qb9hOHK8lb4DNeoTxx-tQfXRx7NPJVy/view?usp=drive_link)
+4. 執行以下 command
+```cpp
+$ docker load -i .\website.tar
+$ docker images
+// REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+// <none>       <none>    af16f511733c   19 hours ago   2.09GB
+$  docker run -d -p 34567:22 -p 8000:8000 -v D:\Documents\1_讀經會考\unix:/home/unix af16f511733c
+// docker run -it -p 34567:22 -p 8000:8000 -v D:\Documents\1_讀經會考\unix:/home/unix af16f511733c
+```
+## 跑 django server
+1. 將此 repository clone 到分享的資料夾中 ( git clone ... )
+2. ssh 進入 docker container
+```cpp
+$ ssh unix@127.0.0.1 -p 34567
+```
+3. 在 docker container 開始 mysql
+```
+$ sudo service mysql start
+```
+4. 在 docker container 進入目標資料夾
+```cpp
+$ cd dujin_score_worksite/score_site/
+$ python3 manage.py runserver 0.0.0.0:8000
+```
+4. 在本機瀏覽器測試 127.0.0.1:8000
