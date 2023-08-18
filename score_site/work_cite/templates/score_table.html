@@ -9,13 +9,21 @@
 </form> -->
 <form method="post" action="{% url 'update_score_table' exam_id %}">
     {% csrf_token %}
-    <button type="submit" name="save">Save</button>
+    {% if user.is_authenticated and exam_id != request.user.username %}
+    <button type="submit" name="save">評分</button>
+    {% endif %}
     <table>
         <thead>
             <tr>
                 <th>考試段數</th>
-                <th>正確性扣分</th>
-                <th>流暢度扣分</th>
+                {% if user.is_authenticated and exam_id != request.user.username %}
+                <th>更改正確性扣分</th>
+                <th>目前正確性扣分</th>
+                <th>更改流暢度扣分</th>
+                {% else %}
+                <th>目前正確性扣分</th>
+                {% endif %}
+                <th>目前流暢度扣分</th>
                 <th>總分</th>
                 <th>是否通過</th>
                 <th>最後評分老師</th>
@@ -25,10 +33,16 @@
             {% for row in result %}
             <tr>
                 <td>{{ row.0 }}</td>
-                <td><input type="number" name="correctness_minus_{{ row.0 }}" value="{{ row.1 }}"></td>
-                <td><input type="number" name="fluency_minus_{{ row.0 }}" value="{{ row.2 }}"></td>
+                {% if user.is_authenticated and exam_id != request.user.username %}
+                <td><input type="number" name="correctness_minus_{{ row.0 }}" value=""></td>
+                <td>{{ row.1 }}</td>
+                <td><input type="number" name="fluency_minus_{{ row.0 }}" value=""></td>
+                {% else %}
+                <td>{{ row.1 }}</td>
+                {% endif %}
+                <td>{{ row.2 }}</td>
                 <td>{{ row.3 }}</td>
-                <td>{% if row.1 is None %}None{% elif row.1 > 90 %}是{% else %}否{% endif %}</td>
+                <td>{% if row.1 is None and row.2 is None%}None{% elif row.3 > 90 %}是{% else %}否{% endif %}</td>
                 <td>{{ row.4 }}</td>
             </tr>
             {% endfor %}

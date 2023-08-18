@@ -8,6 +8,13 @@
         <i class="material-symbols-rounded menubtn">menu</i>
     </label>
     <ul>
+        <li>
+        <form class="d-flex" method=POST action="{% url 'search_student' %}">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="搜尋考生成績" aria-label="Search" name="searched">
+            <button class="btn btn-outline-secondary" type="submit">搜尋</button>
+        </form>
+        </li>
         <li><a class="nav_link_congrats active" href="#">頒獎名單</a></li>
         {% if user.is_authenticated %}
             <li class="nav_link_congrats active">
