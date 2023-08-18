@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>准考證號碼</th>
+            <th>考試日期</th>
+            <th>考試組別</th>
+            <th>姓名</th>
+            <th>所屬壇</th>
+            <th>已評鑑</th>
+            <th>段數</th>
+            <th>評分表連結</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in table %}
+        <tr>
+            <td>{{ row.0 }}</td>
+            <td>{{ row.1 }}</td>
+            <td>{{ row.2 }}</td>
+            <td>{{ row.3 }}</td>
+            <td>{{ row.4 }}</td>
+            <td>{{ row.5 }}</td>
+            <td>{{ row.6 }}</td>
+            <td>
+                <a href="{% url 'student' %}?search_term={{ row.0 }}">
+                    {{ row.0 }} 評分表
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
