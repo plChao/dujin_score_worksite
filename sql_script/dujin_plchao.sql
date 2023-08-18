@@ -87,8 +87,8 @@ DROP TABLE IF EXISTS `mydb`.`actual_exam_situation` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`actual_exam_situation` (
   `article_id` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
-  `correctness_minus` VARCHAR(45) NULL,
-  `fluency_minus` VARCHAR(45) NULL,
+  `correctness_minus` INT NULL,
+  `fluency_minus` INT NULL,
   `final_score` INT NULL,
   `final_examiner` VARCHAR(45) NULL,
   `score_id` INT NOT NULL AUTO_INCREMENT,
