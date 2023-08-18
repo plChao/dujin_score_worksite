@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`actual_exam_situation` (
   `correctness_minus` VARCHAR(45) NULL,
   `fluency_minus` VARCHAR(45) NULL,
   `final_score` INT NULL,
-  `final_examinar` VARCHAR(45) NULL,
+  `final_examiner` VARCHAR(45) NULL,
   `score_id` INT NOT NULL AUTO_INCREMENT,
   `exam_id` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`score_id`),
