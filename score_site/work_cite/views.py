@@ -50,6 +50,21 @@ def student(request):
 		cursor.execute(query)
 		results = cursor.fetchall()
 	return render(request, 'student.html', {'table': results})
+def show_score_table(request, exam_id):
+	query_name = f'SELECT name from all_examinee_info WHERE exam_id = "{exam_id}"'
+	query_article = f'select article_id, correctness_minus, fluency_minus, final_score, final_examiner\
+		  from actual_exam_situation where exam_id = "{exam_id}"\
+			order by article_id'
+	with connection.cursor() as cursor:
+		cursor.execute(query_name)
+		name = cursor.fetchall()[0][0]
+		cursor.execute(query_article)
+		result = cursor.fetchall()
+	
+	return render(request, 'score_table.html', {'name': name, 'exam_id': exam_id, 'result': result})
+def update_score_table(request, exam_id):
+	print(request.POST)
+	return redirect('show_score_table', exam_id=exam_id)
 
 
 def logout_user(request):

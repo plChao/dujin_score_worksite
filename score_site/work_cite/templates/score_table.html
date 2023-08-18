@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ exam_id }} {{ name }} 評分單<br></h2>
+
+<!-- <form method="get">
+    <label for="search_term">Search by Exam ID:</label>
+    <input type="text" id="search_term" name="search_term" value="{{ request.GET.search_term }}">
+    <button type="submit">Search</button>
+</form> -->
+<form method="post" action="{% url 'update_score_table' exam_id %}">
+    {% csrf_token %}
+    <button type="submit" name="save">Save</button>
+    <table>
+        <thead>
+            <tr>
+                <th>考試段數</th>
+                <th>正確性扣分</th>
+                <th>流暢度扣分</th>
+                <th>總分</th>
+                <th>是否通過</th>
+                <th>最後評分老師</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result %}
+            <tr>
+                <td>{{ row.0 }}</td>
+                <td><input type="number" name="correctness_minus_{{ row.0 }}" value="{{ row.1 }}"></td>
+                <td><input type="number" name="fluency_minus_{{ row.0 }}" value="{{ row.2 }}"></td>
+                <td>{{ row.3 }}</td>
+                <td>{% if row.1 is None %}None{% elif row.1 > 90 %}是{% else %}否{% endif %}</td>
+                <td>{{ row.4 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+{% endblock %}

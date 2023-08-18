@@ -24,7 +24,7 @@
             <td>{{ row.5 }}</td>
             <td>{{ row.6 }}</td>
             <td>
-                <a href="{% url 'student' %}?search_term={{ row.0 }}">
+                <a href="{% url 'show_score_table' row.0 %}">
                     {{ row.0 }} 評分表
                 </a>
             </td>
