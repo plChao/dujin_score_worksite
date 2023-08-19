@@ -8,8 +8,8 @@
     <button type="submit">Search</button>
 </form> -->
 <form method="post" action="{% url 'update_score_table' exam_id %}">
-    {% csrf_token %}
     {% if user.is_authenticated and exam_id != request.user.username %}
+    {% csrf_token %}
     <button type="submit" name="save">評分</button>
     {% endif %}
     <table>

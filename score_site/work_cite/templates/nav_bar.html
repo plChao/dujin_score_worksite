@@ -15,7 +15,7 @@
             <button class="btn btn-outline-secondary" type="submit">搜尋</button>
         </form>
         </li>
-        <li><a class="nav_link_congrats active" href="#">頒獎名單</a></li>
+        <li><a class="nav_link_congrats active" href="{% url 'awards' %}">頒獎名單</a></li>
         {% if user.is_authenticated %}
             <li class="nav_link_congrats active">
                 <a class="nav-link" href="{% url 'about' %}">關於我</a>
