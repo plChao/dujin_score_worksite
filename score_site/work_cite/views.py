@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db import connection
-import pandas as pd
 
 # from .forms import RegisterUserForm
 
@@ -53,20 +52,29 @@ def student(request):
 		results = cursor.fetchall()
 	return render(request, 'student.html', {'table': results})
 def show_score_table(request, exam_id):
-	query_name = f'SELECT name from all_examinee_info WHERE exam_id = "{exam_id}"'
+	query_name = f'SELECT name, exam_id from all_examinee_info WHERE exam_id = "{exam_id}"'
 	query_article = f'select article_id, correctness_minus, fluency_minus, final_score, final_examiner\
 		  from actual_exam_situation where exam_id = "{exam_id}"\
 			order by article_id'
 	with connection.cursor() as cursor:
 		cursor.execute(query_name)
-		name = cursor.fetchall()[0][0]
+		name_result = cursor.fetchall()[0]
 		cursor.execute(query_article)
 		result = cursor.fetchall()
 	
-	return render(request, 'score_table.html', {'name': name, 'exam_id': exam_id, 'result': result})
+	return render(request, 'score_table.html', {'name': name_result[0], 'exam_id': name_result[1], 'result': result})
 def search_student(request):
-	print(request.POST)
-	return redirect('show_score_table', exam_id=request.POST['searched'])
+	# print(request.POST)
+	if request.POST['searched'] != "" and (request.POST['searched'][0] == '2'):
+		exam_id = request.POST['searched']
+	else:
+		name = request.POST['searched']
+		query = f'SELECT exam_id from all_examinee_info WHERE name like "{name}%"'
+		with connection.cursor() as cursor:
+			cursor.execute(query)
+			results = cursor.fetchall()
+		exam_id = results[0][0]
+	return redirect('show_score_table', exam_id=exam_id)
 def update_score_table(request, exam_id):
 	current_user_id = request.user.username
 	query = f'SELECT name from all_examinee_info WHERE exam_id = "{current_user_id}"'
