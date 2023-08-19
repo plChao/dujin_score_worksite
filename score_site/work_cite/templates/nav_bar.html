@@ -17,8 +17,8 @@
         </li>
         <li><a class="nav_link_congrats active" href="{% url 'awards' %}">頒獎名單</a></li>
         {% if user.is_authenticated %}
-            <li class="nav_link_congrats active">
-                <a class="nav-link" href="{% url 'about' %}">關於我</a>
+            <li>
+                <a class="nav-link" href="#">歡迎您 {{ request.user.last_name }}</a>
             </li>
             <li class="nav_link_congrats active">
                 <a class="nav-link" href="{% url 'student' %}">考生表</a>

@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.db import connection
+import pandas as pd
 
 # from .forms import RegisterUserForm
 
@@ -92,6 +94,23 @@ def update_score_table(request, exam_id):
 		with connection.cursor() as cursor:
 			cursor.execute(query)
 	return redirect('show_score_table', exam_id=exam_id)
+def create_user(request):
+	df = pd.read_csv('../2023_table/all_examinee_info.csv')
+	df = df[df['job'] == '評鑑老師']
+	account_df = pd.DataFrame()
+	for index, row in df.iterrows():
+		new_row = pd.DataFrame([{'username': row['exam_id'], 'password': 'a0' + str(row['personal_phone_num']), 'name': row['name']}])
+		print(new_row)
+		try:
+			new_user = User.objects.create_user(row['exam_id'], "", 'a0' + row['personal_phone_num'], last_name=row['name'])
+		except:
+			pass
+		account_df = pd.concat([account_df, new_row], ignore_index=True)
+		# myuser = User.objects.create_user('username', 'example@gmail.com', 'youPassword')
+	messages.success(request, ("建立使用者完畢 !"))
+	account_df.to_csv('create_account.csv', index=False)
+	return redirect('index')
+
 def awards(request, exam_id="", awards_id=""):
 	if exam_id == "" and awards_id == "":
 		query = f'select award_qualify.article_name, exam_id, grade_all.name, pass_num, cho, qua_num, (pass_num = award_qualify.qua_num) as pass\
