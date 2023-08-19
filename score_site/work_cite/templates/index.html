@@ -6,15 +6,15 @@
         <div class="student">
             <div>
                 <p>已報到</p>
-                <h2>350/355</h2>
+                <h2>{{ s }} / {{ all }}</h2>
             </div>
             <div>
                 <p>已完成考試</p>
-                <h2>202/355</h2>
+                <h2>{{ f }} / {{ all }}</h2>
             </div>
         </div>
     </div>
-    <div class="classroom_container">
+    <!-- <div class="classroom_container">
         <h3>考過段數統計</h3>
         <div class="classroom">
             <div class="each_classroom">
@@ -50,6 +50,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 {% endblock %}

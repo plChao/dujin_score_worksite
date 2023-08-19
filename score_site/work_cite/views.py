@@ -8,7 +8,22 @@ from django.db import connection
 # from .forms import RegisterUserForm
 
 def index(request):
-    return render(request, 'index.html', {})
+	# 指定考試日期
+	query = 'SELECT SUM(signed), count(*) from all_examinee_info where job = "純考生"'
+	query_f = f'select count(*) from all_examinee_info \
+            JOIN ( \
+                SELECT exam_id, SUM(final_score IS NULL) AS unfinish \
+                FROM actual_exam_situation GROUP BY exam_id \
+            ) AS grade_all \
+            ON grade_all.exam_id = all_examinee_info.exam_id \
+            WHERE job = "純考生" AND unfinish = 0'
+	with connection.cursor() as cursor:
+		cursor.execute(query)
+		query_result = cursor.fetchall()[0]
+		cursor.execute(query_f)
+		finish_num = cursor.fetchall()[0][0]
+
+	return render(request, 'index.html', {'s': int(query_result[0]), 'all': query_result[1], 'f': int(finish_num)})
 
 def login_user(request):
 	if request.method == "POST":
@@ -58,11 +73,14 @@ def show_score_table(request, exam_id):
 			order by article_id'
 	with connection.cursor() as cursor:
 		cursor.execute(query_name)
-		name_result = cursor.fetchall()[0]
+		name_result = cursor.fetchall()
+		if len(name_result) == 0:
+			messages.success(request, (f'找不到 {exam_id}'))
+			return redirect('index')
 		cursor.execute(query_article)
 		result = cursor.fetchall()
 	
-	return render(request, 'score_table.html', {'name': name_result[0], 'exam_id': name_result[1], 'result': result})
+	return render(request, 'score_table.html', {'name': name_result[0][0], 'exam_id': name_result[0][1], 'result': result})
 def search_student(request):
 	# print(request.POST)
 	if request.POST['searched'] != "" and (request.POST['searched'][0] == '2'):
@@ -73,6 +91,8 @@ def search_student(request):
 		with connection.cursor() as cursor:
 			cursor.execute(query)
 			results = cursor.fetchall()
+		if len(results) == 0:
+			return redirect('show_score_table', exam_id=request.POST['searched'])
 		exam_id = results[0][0]
 	return redirect('show_score_table', exam_id=exam_id)
 def update_score_table(request, exam_id):
