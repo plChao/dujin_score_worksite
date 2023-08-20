@@ -221,24 +221,23 @@ main .classroom_container .classroom .bar span p {
 .teacher_table {
     border-collapse: collapse;
     width: 100%;
-    min-width: 750px;
-    background: #fff;
-    text-align: left;
-    box-shadow: 0 15px 25px rgb(0, 0, 0, 0.2);
+    /* min-width: 750px; */
+    /* background: #fff; */
+    text-align: center;
 }
-.teacher_table thead tr {
+.teacher_table thead tr th {
     background-color: #2691d9;
     color: #fff;
     font-weight: 400;
 }
 .teacher_table th,
 .teacher_table td {
-    padding: 12px 15px;
+    padding: 10px 10px;
 }
 .teacher_table tbody tr {
     border-bottom: 1px solid #dddddd;
 }
-.teacher_table tbody tr:nth-child(even) {
+.teacher_table tbody tr:nth-child(odd) {
     background-color: #f3f3f3;
 }
 .teacher_table tbody tr:last-of-type {
@@ -246,13 +245,13 @@ main .classroom_container .classroom .bar span p {
 }
 .edit_btn {
     padding: 5px 10px;
-    color: #fff;
-    background-color: green;
+    color: green;
     border-radius: 5px;
-    width: fit-content;
+    border: 1px solid green;
 }
 .edit_btn:hover {
-    background: gray;
+    background: green;
+    color: #fff;
     cursor: pointer;
 }
 .edit_btn:active {
@@ -301,5 +300,37 @@ main .classroom_container .classroom .bar span p {
     /* login */
     .login_form {
         width: 100%;
+    }
+    /* teacher table */
+    .teacher_table td,
+    .teacher_table tr { display: block; }
+    .teacher_table thead tr {
+        display: none;
+    }
+    tr + tr { margin-top: 1.5em; }
+    .teacher_table tbody tr {
+        border: 2px solid #2691d9;
+    }
+    .teacher_table tbody tr td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        background-color: #fff;
+        text-align: left;
+    }
+    .teacher_table tbody tr td:last-child {
+        text-align: center;
+    }
+    .teacher_table tbody tr td:before {
+        content: attr(data-label);
+        color: gray;
+        display: inline-block;
+        width: 50%;
+        /* white-space: nowrap; */
+    }
+    .teacher_table tbody tr td:last-child:before {
+        content: none;
+    }
+    .teacher_table tbody tr {
+        border-bottom: 2px solid #2691d9;
     }
 }
