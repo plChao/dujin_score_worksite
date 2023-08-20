@@ -210,6 +210,56 @@ main .classroom_container .classroom .bar span p {
     transition: .3s ease-out;
 }
 
+/* teacher */
+.teacher_container {
+    width: 100%;
+    justify-content: center; 
+    padding: 50px 10px;
+    overflow-x: auto;
+    /* background: red; */
+}
+.teacher_table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 750px;
+    background: #fff;
+    text-align: left;
+    box-shadow: 0 15px 25px rgb(0, 0, 0, 0.2);
+}
+.teacher_table thead tr {
+    background-color: #2691d9;
+    color: #fff;
+    font-weight: 400;
+}
+.teacher_table th,
+.teacher_table td {
+    padding: 12px 15px;
+}
+.teacher_table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+.teacher_table tbody tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+.teacher_table tbody tr:last-of-type {
+    border-bottom: 2px solid #2691d9;
+}
+.edit_btn {
+    padding: 3px 10px;
+    color: #fff;
+    background-color: green;
+    border-radius: 5px;
+    width: fit-content;
+}
+.edit_btn:hover {
+    background: gray;
+    cursor: pointer;
+}
+.edit_btn:active {
+    transform: scale(0.9);
+    transition: .3s ease;
+}
+
 /* phone */
 @media (max-width: 600px) {
     nav label.logo a{

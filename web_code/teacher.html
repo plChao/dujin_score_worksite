@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="style.css">
+    <title>評鑑老師首頁</title>
+</head>
+<body>
+    <nav>
+        <label class="logo">
+            <a href="index.html">讀經會考工作站</a>
+        </label>
+        <input type="checkbox" id="check">
+        <label for="check">
+            <i class="material-symbols-rounded menubtn">menu</i>
+        </label>
+        <ul>
+            <li><a class="nav_link_congrats active" href="#">頒獎名單</a></li>
+            <li><a class="nav_link_logout" href="index.html">登出</a></li>
+        </ul>
+    </nav>
+    <div class="teacher_container">
+        <table class="teacher_table">
+            <thead>
+                <tr>
+                    <th>考生准考證號碼</th>
+                    <th>考試時間</th>
+                    <th>考生姓名</th>
+                    <th>報名團體</th>
+                    <th>已評分段數</th>
+                    <th>考取段數</th>
+                    <th>評分連結</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024T0010001</td>
+                    <td>12/31</td>
+                    <td>王大明</td>
+                    <td>XXX讀經班</td>
+                    <td>3</td>
+                    <td>10</td>
+                    <td>
+                        <div class="edit_btn">
+                            評分
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024T040002</td>
+                    <td>12/20</td>
+                    <td>李小容</td>
+                    <td>Ｙ壇</td>
+                    <td>10</td>
+                    <td>20</td>
+                    <td>
+                        <div class="edit_btn">
+                            評分
+                        </div>
+                    </td>                
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
