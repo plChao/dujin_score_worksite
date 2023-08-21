@@ -9,12 +9,11 @@ services:
       - NET_ADMIN
     ports:
       - "34567:22"
-      - "8000:8000"
-      - "5000:5000"
+      - "8888:8000"
     environment:
       - EDITOR=vim
     volumes:
-      - ./unix:/home/unix
+      - ./:/home/unix
     networks:
         default:
 
