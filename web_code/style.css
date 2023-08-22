@@ -221,8 +221,6 @@ main .classroom_container .classroom .bar span p {
 .teacher_table {
     border-collapse: collapse;
     width: 100%;
-    /* min-width: 750px; */
-    /* background: #fff; */
     text-align: center;
 }
 .teacher_table thead tr th {
@@ -243,8 +241,12 @@ main .classroom_container .classroom .bar span p {
 .teacher_table tbody tr:last-of-type {
     border-bottom: 2px solid #2691d9;
 }
+.teacher_table tbody tr td:last-child {
+    display: flex; 
+    justify-content: center;
+}
 .edit_btn {
-    padding: 5px 10px;
+    padding: 5px 20px;
     color: green;
     border-radius: 5px;
     border: 1px solid green;
@@ -269,13 +271,14 @@ main .classroom_container .classroom .bar span p {
     }
     nav ul {
         position: absolute;
-        width: 100%;
+        width: 100vw;
         height: 100vh;
         background: #afafaf;
         left: -100%;
         text-align: center;
         transition: all .5s;
-        z-index: 1; /* on the top */
+        z-index: 1; 
+        /* on the top */
     }
     nav ul li{
         display: block;
@@ -297,31 +300,37 @@ main .classroom_container .classroom .bar span p {
     main .student_container .student {
         grid-template-columns: 1fr;
     }
+    
     /* login */
     .login_form {
         width: 100%;
     }
+
     /* teacher table */
+    .teacher_container {
+        width: 100%;
+        justify-content: center; 
+        overflow-x: auto;
+        /* background: red; */
+    }
     .teacher_table td,
     .teacher_table tr { display: block; }
     .teacher_table thead tr {
         display: none;
     }
     tr + tr { margin-top: 1.5em; }
-    .teacher_table tbody tr {
+    /* .teacher_table tbody tr {
         border: 2px solid #2691d9;
-    }
+    } */
     .teacher_table tbody tr td {
         border: none;
         border-bottom: 1px solid #eee;
         background-color: #fff;
         text-align: left;
     }
-    .teacher_table tbody tr td:last-child {
-        text-align: center;
-    }
     .teacher_table tbody tr td:before {
         content: attr(data-label);
+        padding-left: 20px;
         color: gray;
         display: inline-block;
         width: 50%;
@@ -330,7 +339,11 @@ main .classroom_container .classroom .bar span p {
     .teacher_table tbody tr td:last-child:before {
         content: none;
     }
-    .teacher_table tbody tr {
-        border-bottom: 2px solid #2691d9;
+    .teacher_table tbody tr:last-of-type {
+        border-bottom: none;
+    }
+    .edit_btn {
+        width: 60%;
+        text-align: center;
     }
 }

@@ -1,0 +1,4 @@
+Django==4.0.2
+mysql-connector-python==8.1.0
+mysqlclient==2.1.1
+tzdata==2021.5
