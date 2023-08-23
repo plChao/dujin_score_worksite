@@ -9,8 +9,10 @@ mydb = mysql.connector.connect(
     database="mydb"
 )
 cursor = mydb.cursor()
+# 首頁所需的，純考生報到數量以及考試通過數量
+# 以下是報到以及總數的數量
 # query = f'SELECT SUM(signed), count(*) from all_examinee_info where job = "純考生"'
-
+# 以下是完成考試的數量
 query = f'select count(*) from all_examinee_info \
             JOIN ( \
                 SELECT exam_id, SUM(final_score IS NULL) AS unfinish \

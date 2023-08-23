@@ -10,8 +10,9 @@ mydb = mysql.connector.connect(
 )
 cursor = mydb.cursor()
 # variables
-# 評分老師 id
+# 考生 id
 exam_id_of_student = '2023T06001'
+# query: 該考生的考試段數 id 與最後評分老師
 query = f'select article_id, final_examiner from actual_exam_situation where exam_id = "{exam_id_of_student}"'
 print(query)
 start_time = time.time()
