@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/* .wrap{
+  overflow:hidden;
+  border-radius:10px 10px 0px 0px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.35);
+} */
+
+.student_table{
+  /* font-family: 'Oswald', sans-serif; */
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  text-align: center;
+}
+
+.student_table thead tr th {
+  background-color:#2691d9;
+  color: #fff;
+  height: 60px;
+  font-weight: 400;
+}
+
+.student_table th,
+.student_table td {
+  padding: 15px 0px;
+}
+
+.student_table tbody tr{
+  border-bottom: 1px solid #dddddd;
+}
+.student_table tbody tr:nth-child(odd) {
+  background-color: #f3f3f3;
+}
+
+.student_table tbody tr:last-of-type{
+  border-bottom: 2px solid #2691d9;
+}
+
+  /* student */
+.student_container {
+  width: 100%;
+  justify-content: center; 
+  padding: 50px 10px;
+  overflow-x: auto;
+  /* background: red; */
+}
+
+.edit_btn {
+  padding: 5px 15px;
+  color: green;
+  border-radius: 5px;
+  border: 1px solid green;
+}
+.edit_btn:hover {
+  background: green;
+  color: #fff;
+  cursor: pointer;
+}
+.edit_btn:active {
+  transform: scale(0.9);
+  transition: .3s ease;
+}
+
+/* phone */
+@media (max-width: 600px) {
+    .student_table td,
+    .student_table tr { display: block; }
+
+    .student_table thead tr {
+    display: none;
+    }
+
+    .student_table tr + .student_table tr { margin-top: 1.5em; }
+
+    .student_table tbody tr {
+    border: 2px solid #2691d9;
+  }
+
+  tbody tr td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    text-align: left;
+  }
+  tr td:before {
+    content: attr(data-label);
+    color: gray;
+    display: inline-block;
+    width: 50%;
+    /* white-space: nowrap; */
+  }
+
+  .student_table tr td:last-child {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .student_table td:last-child:before {
+    content: none;
+  }
+
+  tbody tr {
+    border-bottom: 2px solid #009879;
+  }
+
+  .edit_btn {
+    width: 60%;
+  }
+}

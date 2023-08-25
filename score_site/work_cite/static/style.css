@@ -22,15 +22,16 @@ nav label.logo a{
     font-size: 27px;
     font-weight: 600;
     line-height: 70px;
-    padding-left: 50px;
+    padding-left: 2vw;
 }
 nav ul {
     float:right;
-    margin-right: 30px;
+    margin-right: 3vw;
 }
 nav ul li {
     display: inline-block;
     line-height: 70px;
+    vertical-align: middle;
 }
 nav ul li a{
     color: #fff;
@@ -43,9 +44,42 @@ nav ul li a.nav_link_login {
 nav ul li a:hover {
     background: gray;
 }
-nav ul li:active {
+nav ul li:active,
+nav .search_btn:active {
     transform: scale(0.9);
     transition: .3s ease;
+}
+nav .search_container:active {
+    transform: none;
+}
+nav .search_container {
+    vertical-align: middle;
+}
+nav input[type=text] {
+    padding: 6px;
+    font-size: 15px;
+    border: none;
+    border-radius: 0;
+    width: 15vw;
+    max-width: 200px;
+    /* line-height: 20px; */
+    float: left;
+}
+nav .search_btn {
+    border: none;
+    padding: 6px;
+    background: #ddd;
+    /* line-height: 20px;*/
+    cursor: pointer;
+    float: right;
+}
+nav .search_btn i {
+    font-size: 23px;
+    vertical-align: middle;
+}
+nav .search_btn:hover {
+    background: gray;
+    color: #fff;
 }
 nav .menubtn {
     font-size: 40px;
@@ -61,7 +95,7 @@ nav .menubtn {
 
 
 /* index */
-main {
+.index_container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -69,22 +103,22 @@ main {
     /* background: green; */
     padding: 40px 30px;
 }
-main > div{
+.index_container > div{
     width: 80%;
     max-width: 850px;
-    min-width: 600px; 
+    min-width: 600px;
     /* background: gray; */
 }
-main > div h3 {
+.index_container h3 {
     padding: 15px 0;
 }
-main .student_container .student {
+.student_container .student {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     /* background: blue; */
 }
-main .student_container .student > div{
+.student_container .student > div{
     background: #fff;
     box-shadow: 0 15px 25px rgb(0, 0, 0, 0.2);
     padding: 5px 30px;
@@ -94,30 +128,30 @@ main .student_container .student > div{
     flex-wrap: wrap;
     align-items: center;
 }
-main .student_container .student > div h2 {
+.student_container .student > div h2 {
     width: 100%;
     text-align: right;
 }
-main .classroom_container{
+.classroom_container{
     margin-top: 20px;
 }
-main .classroom_container .classroom {
+.classroom_container .classroom {
     background: #fff;
     box-shadow: 0 15px 25px rgb(0, 0, 0, 0.2);
     width: 100%;
     border-radius: 10px;
     padding: 30px;
 }
-main .classroom_container .each_classroom {
+.classroom_container .each_classroom {
     padding: 10px 0;
 }
-main .classroom_container .classroom .bar{
+.classroom_container .classroom .bar{
     width: 100%;
     height: 20px;
     border-radius: 3.5px;
     /* background: rgba(0,0,0,0.1); */
 }
-main .classroom_container .classroom .bar span {
+.classroom_container .classroom .bar span {
     position: relative;
     display: block;
     height: 100%;
@@ -126,16 +160,16 @@ main .classroom_container .classroom .bar span {
     opacity: 0;
     animation: progress 0.4s ease-in-out forwards;
 }
-main .classroom_container .classroom .bar span.x {
+.classroom_container .classroom .bar span.x {
     width: 90%;
 }
-main .classroom_container .classroom .bar span.y {
+.classroom_container .classroom .bar span.y {
     width: 30%;
 }
-main .classroom_container .classroom .bar span.z {
+.classroom_container .classroom .bar span.z {
     width: 60%;
 }
-main .classroom_container .classroom .bar span.zzz {
+.classroom_container .classroom .bar span.zzz {
     width: 25%;
 }
 @keyframes progress {
@@ -147,7 +181,7 @@ main .classroom_container .classroom .bar span.zzz {
         opacity: 1;
     }
 }
-main .classroom_container .classroom .bar span p {
+.classroom_container .classroom .bar span p {
     text-align: center;
     color: #fff;
     line-height: 20px;
@@ -234,18 +268,28 @@ main .classroom_container .classroom .bar span p {
         line-height: 30px;
         padding: 10px;
     }
+    nav .search_container {
+        display: flex;
+        justify-content: center;
+    }
+    nav input[type=text] {
+        width: 50vw;
+    }
+    nav .search_btn {
+        color: #000;
+    }
     nav #check:checked ~ul{
         left: 0;
     }
 
     /* index */
-    main {
+    .index_container {
         padding: 10px;
     }
-    main > div{
+    .index_container > div{
         min-width: 100%;
     }
-    main .student_container .student {
+    .index_container .student_container .student {
         grid-template-columns: 1fr;
     }
     /* login */

@@ -1,35 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
-<table>
-    <thead>
-        <tr>
-            <th>准考證號碼</th>
-            <th>考試日期</th>
-            <th>考試組別</th>
-            <th>姓名</th>
-            <th>所屬壇</th>
-            <th>已評鑑</th>
-            <th>總段數</th>
-            <th>評分表連結</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for row in table %}
-        <tr>
-            <td>{{ row.0 }}</td>
-            <td>{{ row.1 }}</td>
-            <td>{{ row.2 }}</td>
-            <td>{{ row.3 }}</td>
-            <td>{{ row.4 }}</td>
-            <td>{{ row.5 }}</td>
-            <td>{{ row.6 }}</td>
-            <td>
-                <a href="{% url 'show_score_table' row.0 %}">
-                    評分表
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="student_container">
+    <table class="student_table">
+        <thead>
+            <tr>
+                <th>准考證號碼</th>
+                <th>考試日期</th>
+                <th>考試組別</th>
+                <th>姓名</th>
+                <th>所屬壇</th>
+                <th>已評鑑</th>
+                <th>總段數</th>
+                <th>評分表</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in table %}
+            <tr>
+                <td data-label="准考證號碼">{{ row.0 }}</td>
+                <td data-label="考試日期">{{ row.1 }}</td>
+                <td data-label="考試組別">{{ row.2 }}</td>
+                <td data-label="姓名">{{ row.3 }}</td>
+                <td data-label="所屬壇">{{ row.4 }}</td>
+                <td data-label="已評鑑">{{ row.5 }}</td>
+                <td data-label="總段數">{{ row.6 }}</td>
+                <td>
+                    <a class="edit_btn" href="{% url 'show_score_table' row.0 %}">評分</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

@@ -2,72 +2,76 @@
 {% block content %}
 <div style="display: flex; width: 100%;">
     <div style="flex: 1; margin-right: 20px; width: 10%;">
-    <table>
-        <thead>
-            <tr>
-                <th>獎項名稱</th>
-                <th>准考證號</th>
-                <th>獲獎學生</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in table %}
-            <tr>
-                <td>{{ row.0 }}</td>
-                <td>{{ row.1 }}</td>
-                <td>{{ row.2 }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>獎項名稱</th>
+                    <th>准考證號</th>
+                    <th>獲獎學生</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>{{ row.1 }}</td>
+                    <td>{{ row.2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div style="flex: 1; width: 70%;">
         <table>
-            <tr>
-            <th>獎項類別</th>
-            <th>名次</th>
-            <th>連結</th>
-            </tr>
-            <tr>
-            <td>個人獎-道親組</td>
-            <td>前十名</td>
-            <td><a href = "{% url 'get_list' 1 %}">連結</a></td>
-            </tr>
-            <tr>
-            <td>個人獎-讀經班</td>
-            <td>前十名</td>
-            <td><a href = "{% url 'get_list' 2 %}">連結</a></td>
-            </tr>
-            <tr>
-            <td>個人經典獎-道親組</td>
-            <td>前十名</td>
-            <td><a href = "{% url 'get_list' 3 %}">連結</a></td>
-            </tr>
-            <tr>
-            <td>個人經典獎-讀經班</td>
-            <td>前十名</td>
-            <td><a href = "{% url 'get_list' 4 %}">連結</a></td>
-            </tr>
-            <tr>
-            <td>團體段數最多-佛堂</td>
-            <td>前三名</td>
-            <td><a href = "{% url 'get_list' 5 %}">連結</a></td>
-            </tr>
-            <tr>
-            <td>團體段數最多-讀經班</td>
-            <td>前三名</td>
-            <td><a href = "{% url 'get_list' 6 %}">連結</a></td>
-            </tr>
-            <tr>
-            <td>團體進步最多-佛堂</td>
-            <td>前三名</td>
-            <td><a href = "{% url 'get_list' 7 %}">連結</a></td>
-            </tr>
-            <tr>
-            <td>團體進步最多-讀經班</td>
-            <td>前三名</td>
-            <td><a href = "{% url 'get_list' 8 %}">連結</a></td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>獎項類別</th>
+                    <th>名次</th>
+                    <th>連結</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>個人獎-道親組</td>
+                    <td>前十名</td>
+                    <td><a href = "{% url 'get_list' 1 %}">連結</a></td>
+                </tr>
+                <tr>
+                    <td>個人獎-讀經班</td>
+                    <td>前十名</td>
+                    <td><a href = "{% url 'get_list' 2 %}">連結</a></td>
+                </tr>
+                <tr>
+                    <td>個人經典獎-道親組</td>
+                    <td>前十名</td>
+                    <td><a href = "{% url 'get_list' 3 %}">連結</a></td>
+                </tr>
+                <tr>
+                    <td>個人經典獎-讀經班</td>
+                    <td>前十名</td>
+                    <td><a href = "{% url 'get_list' 4 %}">連結</a></td>
+                </tr>
+                <tr>
+                    <td>團體段數最多-佛堂</td>
+                    <td>前三名</td>
+                    <td><a href = "{% url 'get_list' 5 %}">連結</a></td>
+                </tr>
+                <tr>
+                    <td>團體段數最多-讀經班</td>
+                    <td>前三名</td>
+                    <td><a href = "{% url 'get_list' 6 %}">連結</a></td>
+                </tr>
+                <tr>
+                    <td>團體進步最多-佛堂</td>
+                    <td>前三名</td>
+                    <td><a href = "{% url 'get_list' 7 %}">連結</a></td>
+                </tr>
+                    <tr>
+                    <td>團體進步最多-讀經班</td>
+                    <td>前三名</td>
+                    <td><a href = "{% url 'get_list' 8 %}">連結</a></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

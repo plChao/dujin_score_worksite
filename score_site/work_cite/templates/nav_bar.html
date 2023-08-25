@@ -8,22 +8,24 @@
         <i class="material-symbols-rounded menubtn">menu</i>
     </label>
     <ul>
-        <li>
-        <form class="d-flex" method=POST action="{% url 'search_student' %}">
-            {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="輸入考生准考證號或姓名" aria-label="Search" name="searched">
-            <button class="btn btn-outline-secondary" type="submit">搜尋考生評分表</button>
-        </form>
+        <li class="search_container">
+            <form method=POST action="{% url 'search_student' %}">
+                {% csrf_token %}
+                <input type="text" placeholder="輸入考生准考證號或姓名" aria-label="Search" name="searched">
+                <button class="search_btn" type="submit">
+                    <i class="material-symbols-rounded" type="submit">search</i>
+                </button>
+            </form>
         </li>
-        <li><a class="nav_link_congrats active" href="{% url 'awards' %}">頒獎名單</a></li>
+        <li><a class="nav_link_congrats" href="{% url 'awards' %}">頒獎名單</a></li>
         {% if user.is_authenticated %}
-            <li>
+            <!-- <li>
                 <a class="nav-link" href="#">歡迎您 {{ request.user.last_name }}</a>
-            </li>
-            <li class="nav_link_congrats active">
+            </li> -->
+            <li class="nav_link_congrats">
                 <a class="nav-link" href="{% url 'student' %}">考生表</a>
             </li>
-            <li class="nav_link_congrats active">
+            <li class="nav_link_congrats">
                 <a class="nav-link" href="{% url 'logout' %}">登出</a>
             </li>
         {% else %}

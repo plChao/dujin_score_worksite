@@ -1,55 +1,58 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
-    <div class="student_container">
-        <h3>學生狀態</h3>
-        <div class="student">
-            <div>
-                <p>已報到</p>
-                <h2>{{ s }} / {{ all }}</h2>
+    <div class="index_container">
+        <div>
+
+            <div class="student_container">
+                <h3>學生狀態</h3>
+                <div class="student">
+                    <div>
+                        <p>已報到</p>
+                        <h2>{{ s }} / {{ all }}</h2>
+                    </div>
+                    <div>
+                        <p>已完成考試</p>
+                        <h2>{{ f }} / {{ all }}</h2>
+                    </div>
+                </div>
             </div>
-            <div>
-                <p>已完成考試</p>
-                <h2>{{ f }} / {{ all }}</h2>
-            </div>
+            <!-- <div class="classroom_container">
+                <h3>考過段數統計</h3>
+                <div class="classroom">
+                    <div class="each_classroom">
+                        <p>X壇</p>
+                        <div class="bar">
+                            <span class="x">
+                                <p>90</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="each_classroom">
+                        <p>Y壇</p>
+                        <div class="bar">
+                            <span class="y">
+                                <p>30</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="each_classroom">
+                        <p>Z讀經班</p>
+                        <div class="bar">
+                            <span class="z">
+                                <p>60</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="each_classroom">
+                        <p>ZZZ讀經班</p>
+                        <div class="bar">
+                            <span class="zzz">
+                                <p>25</p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
         </div>
     </div>
-    <!-- <div class="classroom_container">
-        <h3>考過段數統計</h3>
-        <div class="classroom">
-            <div class="each_classroom">
-                <p>X壇</p>
-                <div class="bar">
-                    <span class="x">
-                        <p>90</p>
-                    </span>
-                </div>
-            </div>
-            <div class="each_classroom">
-                <p>Y壇</p>
-                <div class="bar">
-                    <span class="y">
-                        <p>30</p>
-                    </span>
-                </div>
-            </div>
-            <div class="each_classroom">
-                <p>Z讀經班</p>
-                <div class="bar">
-                    <span class="z">
-                        <p>60</p>
-                    </span>
-                </div>
-            </div>
-            <div class="each_classroom">
-                <p>ZZZ讀經班</p>
-                <div class="bar">
-                    <span class="zzz">
-                        <p>25</p>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div> -->
-</div>
 {% endblock %}
