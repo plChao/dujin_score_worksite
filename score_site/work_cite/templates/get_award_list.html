@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h2> {{ awards_name }} <br></h2>
+</div>
+<div>
+    <table>
+        <thead>
+            <tr>
+                {% for row in table_col %}
+                    <th>{{ row }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result %}
+            <tr>
+                <td>{{ row.0 }}</td>
+                <td>{{ row.1 }}</td>
+                <td>{{ row.2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

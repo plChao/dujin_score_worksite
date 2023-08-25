@@ -12,7 +12,9 @@ into table tan_info
 fields terminated by ','
 enclosed by '"'
 lines terminated by '\n'
-ignore 1 lines;
+ignore 1 lines
+(@tan_id,@area,@group,@tan_name)
+set `tan_id`=@tan_id, `area`=@area, `group`=@group, `tan_name`=@tan_name;
 
 load data local infile '../2023_table/article_info.csv'
 into table article_info
