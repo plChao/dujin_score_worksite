@@ -9,17 +9,14 @@ mydb = mysql.connector.connect(
     database="mydb"
 )
 cursor = mydb.cursor()
-# 首頁所需的，純考生報到數量以及考試通過數量
-# 以下是報到以及總數的數量
-# query = f'SELECT SUM(signed), count(*) from all_examinee_info where job = "純考生"'
-# 以下是完成考試的數量
-query = f'select count(*) from all_examinee_info \
-            JOIN ( \
-                SELECT exam_id, SUM(final_score IS NULL) AS unfinish \
-                FROM actual_exam_situation GROUP BY exam_id \
-            ) AS grade_all \
-            ON grade_all.exam_id = all_examinee_info.exam_id \
-            WHERE job = "純考生" AND unfinish = 0'
+# 壇的通過段數排名
+query = f'select tan_name, count(*) as pass_num\
+        from all_examinee_info, actual_exam_situation \
+        WHERE all_examinee_info.exam_id = actual_exam_situation.exam_id and \
+            tan_id like "T%" and\
+            final_score > 90\
+        group by tan_id, tan_name\
+        order by pass_num desc'
 print(query)
 start_time = time.time()
 # time calculate

@@ -1,12 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>{{ exam_id }} {{ name }} 評分單<br></h2>
-
-<!-- <form method="get">
-    <label for="search_term">Search by Exam ID:</label>
-    <input type="text" id="search_term" name="search_term" value="{{ request.GET.search_term }}">
-    <button type="submit">Search</button>
-</form> -->
+    <h2>{{ exam_id }} {{ name }} 評分單<br>通過/已簽名評分/總段數: {{summary.0}}/{{summary.1}}/{{summary.2}}</h2>
 <form method="post" action="{% url 'update_score_table' exam_id %}">
     {% if user.is_authenticated and exam_id != request.user.username %}
     {% csrf_token %}

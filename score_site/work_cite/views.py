@@ -71,6 +71,8 @@ def show_score_table(request, exam_id):
 	query_article = f'select article_id, correctness_minus, fluency_minus, final_score, final_examiner\
 		  from actual_exam_situation where exam_id = "{exam_id}"\
 			order by article_id'
+	query_summary = f'select SUM(final_score > 90), SUM(final_score is not null), count(*)\
+		  from actual_exam_situation where exam_id = "{exam_id}"'
 	with connection.cursor() as cursor:
 		cursor.execute(query_name)
 		name_result = cursor.fetchall()
@@ -79,8 +81,67 @@ def show_score_table(request, exam_id):
 			return redirect('index')
 		cursor.execute(query_article)
 		result = cursor.fetchall()
+		cursor.execute(query_summary)
+		summary = cursor.fetchall()
 	
-	return render(request, 'score_table.html', {'name': name_result[0][0], 'exam_id': name_result[0][1], 'result': result})
+	return render(request, 'score_table.html', {'name': name_result[0][0], 'exam_id': name_result[0][1], 'result': result, 'summary': summary[0]})
+def get_award_list(request, award_id):
+	if award_id == '1':
+		query = f'select all_examinee_info.exam_id, all_examinee_info.name, count(*) as pass_num\
+			from all_examinee_info, actual_exam_situation \
+			WHERE all_examinee_info.exam_id = actual_exam_situation.exam_id and \
+				(tan_id like "T%" or tan_id like "S%") and\
+				final_score > 90\
+			group by exam_id, name\
+			order by pass_num desc'
+		awards_name = '個人獎-道親組'
+		table_col = ['准考證號碼', '考生名字', '總通過段數']
+		with connection.cursor() as cursor:
+			cursor.execute(query)
+			results = cursor.fetchall()
+	elif award_id == '2':
+		query = f'select all_examinee_info.exam_id, all_examinee_info.name, count(*) as pass_num\
+			from all_examinee_info, actual_exam_situation \
+			WHERE all_examinee_info.exam_id = actual_exam_situation.exam_id and \
+				tan_id like "R%" and\
+				final_score > 90\
+			group by exam_id, name\
+			order by pass_num desc'
+		awards_name = '個人獎-道親組'
+		table_col = ['准考證號碼', '考生名字', '總通過段數']
+		with connection.cursor() as cursor:
+			cursor.execute(query)
+			results = cursor.fetchall()
+	elif award_id == '5':
+		query = f'select tan_id, tan_name, count(*) as pass_num\
+			from all_examinee_info, actual_exam_situation \
+			WHERE all_examinee_info.exam_id = actual_exam_situation.exam_id and \
+				(tan_id like "T%" or tan_id like "S%") and\
+				final_score > 90\
+			group by tan_id, tan_name\
+			order by pass_num desc'
+		awards_name = '團體段數最多-佛堂'
+		table_col = ['佛堂編號', '佛堂名稱', '佛堂總通過段數']
+		with connection.cursor() as cursor:
+			cursor.execute(query)
+			results = cursor.fetchall()
+	elif award_id == '6':
+		query = f'select tan_id, tan_name, count(*) as pass_num\
+			from all_examinee_info, actual_exam_situation \
+			WHERE all_examinee_info.exam_id = actual_exam_situation.exam_id and \
+				tan_id like "R%" and\
+				final_score > 90\
+			group by tan_id, tan_name\
+			order by pass_num desc'
+		awards_name = '團體段數最多-讀經班'
+		table_col = ['讀經班編號', '讀經班名稱', '讀經班總通過段數']
+		with connection.cursor() as cursor:
+			cursor.execute(query)
+			results = cursor.fetchall()
+	else:
+		messages.success(request, ("獎項未計算"))
+		return redirect('awards')
+	return render(request, 'get_award_list.html', {'awards_name': awards_name,'table_col': table_col, 'result': results})
 def search_student(request):
 	# print(request.POST)
 	if request.POST['searched'] != "" and (request.POST['searched'][0] == '2'):

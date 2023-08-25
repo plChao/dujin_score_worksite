@@ -9,10 +9,10 @@ mydb = mysql.connector.connect(
     database="mydb"
 )
 cursor = mydb.cursor()
-# variables
-# 單人經典獎
-# article_name, award_id, pass_num, cho, qua_num, pass
+# variables 考生 id
 # exam_id_of_student = '2023T20005'
+# query: 該考生符合資格的經典獎項
+# article_name, award_id, pass_num, cho: 在這個經典講中選取的段數, qua_num: 符合這個經典獎需要的段數, pass: 是否通過
 # query = f'  select award_qualify.article_name, award_qualify.award_id, pass_num, cho, qua_num, (pass_num = award_qualify.qua_num) as pass\
 #             from (select article_name, award_id, SUM(final_score is not null and final_score > 90) as pass_num, COUNT(*) as cho \
 #             from awards \
@@ -28,8 +28,8 @@ cursor = mydb.cursor()
 #             on award_qualify.award_id = grade_all.award_id \
 #             where award_qualify.qua_num = grade_all.cho;'
 
-# 所有經典獎, 有資格/獲獎
-# article_name, exam_id, name, pass_num, cho, qua_num, pass
+# 列出所有報名段數有資格獲得經典獎的考生
+# article_name: 經典獎名稱, exam_id, name, pass_num, cho, qua_num, pass: 是否通過
 query = f'select award_qualify.article_name, exam_id, grade_all.name, pass_num, cho, qua_num, (pass_num = award_qualify.qua_num) as pass\
             from (select article_name, award_id, exam_id, name, SUM(final_score is not null and final_score > 90) as pass_num, COUNT(*) as cho \
             from awards \
@@ -44,7 +44,7 @@ query = f'select award_qualify.article_name, exam_id, grade_all.name, pass_num, 
             on award_qualify.award_id = grade_all.award_id \
             where award_qualify.qua_num = grade_all.cho\
             order by award_qualify.award_id, exam_id;'
-# 所有經典獎, 獲獎者
+# 列出所有經典獎的獲獎者(只限於考試完後，經典獎內的段數都通過者)
 query = f'select award_qualify.article_name, exam_id, grade_all.name, pass_num, cho, qua_num, (pass_num = award_qualify.qua_num) as pass\
             from (select article_name, award_id, exam_id, name, SUM(final_score is not null and final_score > 90) as pass_num, COUNT(*) as cho \
             from awards \

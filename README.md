@@ -7,6 +7,18 @@
 |施雅青|alicia.cs08@nctu.edu.tw|
 ## 主旨
 1. 架設 website 供讀經會考評分使用
+## 匯入資料
+1. 下載道親報名表
+```
+$ cd data_clean
+$ python exam_situation_forT_ching.py
+$ python set_article_id_forT_ching.py
+```
+1. 下載報名表-讀經班報名
+```
+$ python exam_situation_forR_plchao.py
+$ python set_article_id_forR_plchao.py
+``` 
 ## 架設環境步驟
 1. 安裝 docker
 ```

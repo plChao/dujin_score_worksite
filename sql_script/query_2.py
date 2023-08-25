@@ -11,6 +11,8 @@ mydb = mysql.connector.connect(
 cursor = mydb.cursor()
 # variables
 # 評分老師 id
+# query: 老師的考生評分頁面，老師參與的所有考試場次中的參加者的
+# exam_id, exam_date, ..., finish_num: 已經評分的段數, article_num: 報名的段數
 exam_id_of_teacher = '2023T06001'
 query = f'select info.exam_id, exam_date, exam_group, name, tan_name, finish_num, article_num\
       from (SELECT examinee.exam_id, examinee.exam_date, examinee.exam_group, name, tan_name\

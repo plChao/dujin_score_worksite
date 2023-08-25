@@ -1,7 +1,7 @@
 import pandas as pd
 import tqdm
 
-df_clean = pd.read_csv('./ori_data.csv')
+df_clean = pd.read_csv('./第二屆經典會考-讀經班報名表副本 - 表單回應 1.csv')
 
 # 留下最新資料
 df_clean = df_clean.sort_values(by=['時間戳記'],ascending=False)
@@ -28,5 +28,11 @@ df['score_id']=""
 df_type = pd.read_csv('../2023_table/all_examinee_info.csv')[['name', 'exam_id']]
 print('df', len(df), 'df_examinee', len(df_type))
 df = df.merge(df_type, how='left')
+output_csv = '../2023_table/actual_exam_situation.csv'
+import os
+if os.path.exists(output_csv):
+    previous_df = pd.read_csv(output_csv)
+    df = pd.concat([previous_df, df])
 print(len(df), len(df.drop_duplicates(keep=False)))
-df.to_csv('../2023_table/actual_exam_situation.csv', index=False)
+df = df.drop_duplicates()
+df.to_csv(output_csv, index=False)
