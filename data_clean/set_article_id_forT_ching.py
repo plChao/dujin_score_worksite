@@ -29,4 +29,5 @@ df_type = pd.read_csv('../2023_table/all_examinee_info.csv')[['name', 'exam_id']
 print('df', len(df), 'df_examinee', len(df_type))
 df = df.merge(df_type, how='left')
 print(len(df), len(df.drop_duplicates(keep=False)))
+
 df.to_csv('../2023_table/actual_exam_situation.csv', index=False)
