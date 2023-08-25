@@ -41,5 +41,5 @@ import os
 output_csv = '../2023_table/all_examinee_info.csv'
 if os.path.exists(output_csv):
     df_previous = pd.read_csv(output_csv)
-df_all_time = pd.concat([df_previous, df_all_time])
+    df_all_time = pd.concat([df_previous, df_all_time])
 df_all_time.to_csv(output_csv, index=False)
