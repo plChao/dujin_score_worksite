@@ -81,6 +81,9 @@ def show_score_table(request, exam_id):
 		result = cursor.fetchall()
 	
 	return render(request, 'score_table.html', {'name': name_result[0][0], 'exam_id': name_result[0][1], 'result': result})
+def get_award_list(request, award_id):
+	messages.success(request, ("獎項未計算"))
+	return redirect('awards')
 def search_student(request):
 	# print(request.POST)
 	if request.POST['searched'] != "" and (request.POST['searched'][0] == '2'):
