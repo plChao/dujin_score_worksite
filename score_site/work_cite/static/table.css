@@ -37,7 +37,7 @@ tbody tr:last-of-type{
 }
 
   /* student */
-.student_container {
+.student_table_container {
   width: 100%;
   justify-content: center; 
   padding: 50px 10px;
@@ -57,7 +57,7 @@ tbody tr:last-of-type{
   cursor: pointer;
 }
 .edit_btn:active {
-  transform: scale(0.9);
+  transform: scale(0.9); 
   transition: .3s ease;
 }
 

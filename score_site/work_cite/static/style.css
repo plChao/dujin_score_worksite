@@ -101,15 +101,15 @@ nav .menubtn {
     flex-wrap: wrap;
     justify-content: center;
     /* background: green; */
-    padding: 40px 30px;
 }
 .index_container > div{
     width: 80%;
     max-width: 850px;
     min-width: 600px;
+    padding: 40px 10px;
     /* background: gray; */
 }
-.index_container h3 {
+.index_container > div h3 {
     padding: 15px 0;
 }
 .student_container .student {
@@ -192,9 +192,11 @@ nav .menubtn {
     display: flex;
     justify-content: center; 
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 200px);
+    min-height: 400px;
     padding: 50px 10px;
     place-items: center;
+    /* background: red; */
 }
 .login_form {
     background: #fff;
@@ -283,7 +285,7 @@ nav .menubtn {
     }
 
     /* index */
-    .index_container {
+    .index_container > div{
         padding: 10px;
     }
     .index_container > div{
