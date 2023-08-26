@@ -19,7 +19,7 @@ query = f'select count(*) from all_examinee_info \
                 FROM actual_exam_situation GROUP BY exam_id \
             ) AS grade_all \
             ON grade_all.exam_id = all_examinee_info.exam_id \
-            WHERE job = "純考生" AND unfinish = 0'
+            WHERE job = "純考生" AND unfinish = 0;'
 print(query)
 start_time = time.time()
 # time calculate
