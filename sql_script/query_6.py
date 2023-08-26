@@ -16,7 +16,7 @@ query = f'select all_examinee_info.exam_id, all_examinee_info.name, count(*) as 
 				(tan_id like "T%" or tan_id like "S%") and\
 				final_score > 90\
 			group by exam_id, name\
-			order by pass_num desc limit 10'
+			order by pass_num desc limit 10;'
 print(query)
 start_time = time.time()
 # time calculate
