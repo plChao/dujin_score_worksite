@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv('./1_examiner.csv')
+df = pd.read_csv('../../../../第三屆_考官分組方式/result/1_examiner.csv')
+get_exam_id = pd.read_csv('../2024_table/all_examinee_info.csv')[['exam_id', 'name']]
+get_exam_id = get_exam_id.rename(columns = {'name': 'examiner_name'})
 
 order_df = pd.DataFrame()
 for index, row in df.iterrows():
@@ -15,4 +17,7 @@ for index, row in df.iterrows():
             }
             order_df = order_df.append(row_dict, ignore_index=True)
 order_df['exam_group'] = order_df['exam_group'].astype(int)
-order_df.to_csv('exam_info.csv', index=False)
+print(order_df.columns, get_exam_id.columns)
+order_df = order_df.merge(get_exam_id, how='left')
+order_df.drop(['examiner_name'], axis=1, inplace=True)
+order_df.to_csv('../2024_table/exams.csv', index=False)
