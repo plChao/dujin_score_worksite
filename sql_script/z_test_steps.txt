@@ -4,3 +4,7 @@ sudo mysql --local-infile=1 -u root -p
 SET GLOBAL local_infile=1;
 source dujin_plchao.sql;
 source load_csv.sql;
+
+
+sudo cp /var/lib/mysql-files/actual_exam_situation.csv ./
+sudo rm /var/lib/mysql-files/actual_exam_situation.csv

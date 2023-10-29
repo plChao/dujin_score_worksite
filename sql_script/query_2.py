@@ -13,7 +13,7 @@ cursor = mydb.cursor()
 # 評分老師 id
 # query: 老師的考生評分頁面，老師參與的所有考試場次中的參加者的
 # exam_id, exam_date, ..., finish_num: 已經評分的段數, article_num: 報名的段數
-exam_id_of_teacher = '2023T06001'
+exam_id_of_teacher = '2023T37002'
 query = f'select info.exam_id, exam_date, exam_group, name, tan_name, finish_num, article_num\
       from (SELECT examinee.exam_id, examinee.exam_date, examinee.exam_group, name, tan_name\
     FROM all_examinee_info AS examinee \
@@ -24,11 +24,12 @@ query = f'select info.exam_id, exam_date, exam_group, name, tan_name, finish_num
                 FROM actual_exam_situation \
                 GROUP BY exam_id) as number on info.exam_id = number.exam_id \
     order by exam_date'
-# query = f'SELECT examinee.exam_id, examinee.exam_date, examinee.exam_group, name, tan_name\
-#     FROM all_examinee_info AS examinee \
-#     JOIN (SELECT exam_date, exam_group FROM exams WHERE exam_id = "{exam_id_of_teacher}")AS exam_group_table \
-#     ON examinee.exam_date = exam_group_table.exam_date \
-#     and examinee.exam_group = exam_group_table.exam_group'
+query = f'SELECT examinee.exam_id, examinee.exam_date, examinee.exam_group, name, tan_name\
+    FROM all_examinee_info AS examinee \
+    JOIN (SELECT exam_date, exam_group FROM exams WHERE exam_id = "{exam_id_of_teacher}")AS exam_group_table \
+    ON examinee.exam_date = exam_group_table.exam_date \
+    and examinee.exam_group = exam_group_table.exam_group'
+query = f'SELECT exam_date, exam_group FROM exams WHERE exam_id = "{exam_id_of_teacher}"'
 print(query)
 start_time = time.time()
 # time calculate
