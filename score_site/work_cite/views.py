@@ -49,6 +49,21 @@ def about(request):
 		results = cursor.fetchall()
 
 	return render(request, 'about.html', {'user_name': results[0][0]})
+def get_article_content(request, article_id):
+	import glob
+	import os
+	print(os.path.abspath(os.path.curdir))
+	path = glob.glob(f'./templates/articles/*{article_id}*')
+	print(path)
+	if len(path) == 0:
+		messages.success(request, (f'no articel for ./templates/articles/*{article_id}*'))
+		return redirect('index')
+	elif len(path) > 1:
+		messages.success(request, (f'multiple articel for ./templates/articles/{article_id}*'))
+	else:
+		return render(request, f'./articles/{article_id}.html', {})
+	
+
 def student(request):
 	current_user_id = request.user.username
 
@@ -65,6 +80,7 @@ def student(request):
 	with connection.cursor() as cursor:
 		cursor.execute(query)
 		results = cursor.fetchall()
+	print(current_user_id, results)
 	return render(request, 'student.html', {'table': results})
 def show_score_table(request, exam_id):
 	query_name = f'SELECT name, exam_id from all_examinee_info WHERE exam_id = "{exam_id}"'
@@ -184,7 +200,7 @@ def update_score_table(request, exam_id):
 			cursor.execute(query)
 	return redirect('show_score_table', exam_id=exam_id)
 def create_user(request):
-	df = pd.read_csv('../2023_table/all_examinee_info.csv')
+	df = pd.read_csv('../2024_table/all_examinee_info.csv')
 	df = df[df['job'] == '評鑑老師']
 	account_df = pd.DataFrame()
 	for index, row in df.iterrows():
