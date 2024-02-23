@@ -4,7 +4,7 @@
 |-|-|
 |石昀翰|yunhans523@gmail.com|
 |趙秉濂|plchao0415@gmail.com|
-|施雅青|alicia.cs08@nctu.edu.tw|
+|施雅青|syc891017@gmail.com|
 ## 主旨
 1. 架設 website 供讀經會考評分使用
 ## 匯入資料
