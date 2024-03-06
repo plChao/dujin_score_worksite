@@ -14,4 +14,4 @@ sqlparse==0.4.4
 ssh-import-id==5.11
 typing_extensions==4.7.1
 tzdata==2021.5
-virtualenv==20.13.0+ds
+virtualenv==20.13.0
