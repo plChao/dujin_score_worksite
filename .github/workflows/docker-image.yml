@@ -8,11 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    services:
-      - name: docker:dind
-        options: --privileged
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
