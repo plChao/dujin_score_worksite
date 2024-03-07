@@ -15,6 +15,7 @@ services:
 
   djangosite:
     build: .
+    image: plchao/djangosite:latest
     restart: always
     command: python manage.py runserver 0.0.0.0:8000
     ports:
@@ -27,7 +28,6 @@ services:
       - DJANGO_MYSQL_PASSWORD=kms6365
       - DJANGO_MYSQL_HOST=db
       - DJANGO_MYSQL_PORT=3306
-      # - DJANGO_REDIS_URL=redis:6379
     links:
       - db
     depends_on:
