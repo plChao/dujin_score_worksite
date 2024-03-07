@@ -27,4 +27,4 @@ jobs:
         pip install -r ./requirements.txt
     - name: Run Tests
       run: |
-        python ./score_site/work_cite/manage.py test
+        python ./score_site/manage.py test
