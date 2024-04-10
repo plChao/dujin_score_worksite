@@ -11,7 +11,7 @@ services:
       - 3306:3306
     volumes:
       - ./bin/datas/mysql/:/var/lib/mysql
-    container_name: mysqlDb
+    container_name: db
 
   djangosite:
     build: .
