@@ -48,7 +48,7 @@ $ sudo service mysql start
 ```
 4. 在 docker container 進入目標資料夾
 ```cpp
-$ cd dujin_score_worksite/score_site/
+$ cd code
 $ python3 manage.py runserver 0.0.0.0:8000
 ```
 4. 在本機瀏覽器測試 127.0.0.1:8000
