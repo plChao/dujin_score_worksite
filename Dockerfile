@@ -1,13 +1,18 @@
+# Base image
 FROM python:3.10
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-WORKDIR /code/
-RUN  apt-get update && \
-     apt-get install  default-libmysqlclient-dev gettext -y && \
-      rm -rf /var/lib/apt/lists/*
-ADD requirements.txt requirements.txt
-RUN pip install --upgrade pip  && \
-        pip install --no-cache-dir -r requirements.txt  && \
-        pip install --no-cache-dir gunicorn[gevent] && \
-        pip cache purge
-        
+
+# Set the working directory in the container
+WORKDIR /code
+
+# Copy the requirements file to the working directory
+COPY requirements.txt /code/
+
+# Install project dependencies
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# Copy the project code to the working directory
 ADD . .
