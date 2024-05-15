@@ -3,3 +3,4 @@
 **/bin/*
 articles/*
 db.sqlite3
+**/.DS_Store
