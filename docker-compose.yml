@@ -33,22 +33,3 @@ services:
     depends_on:
       - db
     container_name: djangosite
-  # nginx:
-  #   restart: always
-  #   image: nginx:latest
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ./bin/nginx.conf:/etc/nginx/nginx.conf
-  #     - ./collectedstatic:/code/djangoblog/collectedstatic
-  #   links:
-  #     - djangoblog:djangoblog
-  #   container_name: nginx
-
-  # redis:
-  #   restart: always
-  #   image: redis:latest
-  #   container_name: redis
-  #   ports:
-  #     - "6379:6379"

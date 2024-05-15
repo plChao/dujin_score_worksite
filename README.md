@@ -25,6 +25,6 @@ docker-compose up -d
 ```
 ## 製作開發環境
 ```shell
-docker build -t my_django_dev .
-docker run -it --rm -v ${pwd}:/codeForDev/ my_django_dev bash # For windows
+docker-compose up -d
+docker exec -it CONTAINER_ID /bin/bash
 ```

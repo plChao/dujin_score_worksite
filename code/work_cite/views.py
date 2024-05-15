@@ -9,13 +9,13 @@ from django.db import connection
 
 def index(request):
 	# 指定考試日期
-	query = 'SELECT SUM(signed), count(*) from all_examinee_info where job = "純考生"'
-	query_f = f'select count(*) from all_examinee_info \
+	query = 'SELECT SUM(signed), count(*) from work_cite_all_examinee_info where job = "純考生"'
+	query_f = f'select count(*) from work_cite_all_examinee_info \
             JOIN ( \
                 SELECT exam_id, SUM(final_score IS NULL) AS unfinish \
-                FROM actual_exam_situation GROUP BY exam_id \
+                FROM work_cite_actual_exam_situation GROUP BY exam_id \
             ) AS grade_all \
-            ON grade_all.exam_id = all_examinee_info.exam_id \
+            ON grade_all.exam_id = work_cite_all_examinee_info.exam_id \
             WHERE job = "純考生" AND unfinish = 0'
 	with connection.cursor() as cursor:
 		cursor.execute(query)
@@ -24,6 +24,14 @@ def index(request):
 		finish_num = cursor.fetchall()[0][0]
 
 	return render(request, 'index.html', {'s': int(query_result[0]), 'all': query_result[1], 'f': int(finish_num)})
+
+def table_exists(request):
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+		msg = cursor.fetchall()
+		print(msg)
+	messages.success(request, (f"{msg}"))
+	return redirect('index')
 
 def login_user(request):
 	if request.method == "POST":
@@ -43,7 +51,7 @@ def about(request):
 	current_user_id = request.user.username
 
 	exam_id = f'"{current_user_id}"'
-	query = 'SELECT name from all_examinee_info WHERE exam_id = ' + exam_id
+	query = 'SELECT name from work_cite_all_examinee_info WHERE exam_id = ' + exam_id
 	with connection.cursor() as cursor:
 		cursor.execute(query)
 		results = cursor.fetchall()
@@ -69,12 +77,12 @@ def student(request):
 
 	query = f'select info.exam_id, exam_date, exam_group, name, tan_name, finish_num, article_num\
 		  from (SELECT examinee.exam_id, examinee.exam_date, examinee.exam_group, name, tan_name\
-    FROM all_examinee_info AS examinee \
-    JOIN (SELECT exam_date, exam_group FROM exams WHERE exam_id = "{current_user_id}")AS exam_group_table \
+    FROM work_cite_all_examinee_info AS examinee \
+    JOIN (SELECT exam_date, exam_group FROM work_cite_exams WHERE exam_id = "{current_user_id}")AS exam_group_table \
     ON examinee.exam_date = exam_group_table.exam_date \
     and examinee.exam_group = exam_group_table.exam_group) as info \
     JOIN (SELECT exam_id, SUM(final_examiner is not null) AS finish_num, count(article_id) AS article_num \
-                FROM actual_exam_situation \
+                FROM work_cite_actual_exam_situation \
                 GROUP BY exam_id) as number on info.exam_id = number.exam_id \
     order by exam_date'
 	with connection.cursor() as cursor:
@@ -83,12 +91,12 @@ def student(request):
 	print(current_user_id, results)
 	return render(request, 'student.html', {'table': results})
 def show_score_table(request, exam_id):
-	query_name = f'SELECT name, exam_id from all_examinee_info WHERE exam_id = "{exam_id}"'
+	query_name = f'SELECT name, exam_id from work_cite_all_examinee_info WHERE exam_id = "{exam_id}"'
 	query_article = f'select article_id, correctness_minus, fluency_minus, final_score, final_examiner\
-		  from actual_exam_situation where exam_id = "{exam_id}"\
+		  from work_cite_actual_exam_situation where exam_id = "{exam_id}"\
 			order by article_id'
 	query_summary = f'select SUM(final_score > 90), SUM(final_score is not null), count(*)\
-		  from actual_exam_situation where exam_id = "{exam_id}"'
+		  from work_cite_actual_exam_situation where exam_id = "{exam_id}"'
 	with connection.cursor() as cursor:
 		cursor.execute(query_name)
 		name_result = cursor.fetchall()
@@ -103,9 +111,9 @@ def show_score_table(request, exam_id):
 	return render(request, 'score_table.html', {'name': name_result[0][0], 'exam_id': name_result[0][1], 'result': result, 'summary': summary[0]})
 def get_award_list(request, award_id):
 	if award_id == '1':
-		query = f'select all_examinee_info.exam_id, all_examinee_info.name, count(*) as pass_num\
-			from all_examinee_info, actual_exam_situation \
-			WHERE all_examinee_info.exam_id = actual_exam_situation.exam_id and \
+		query = f'select work_cite_all_examinee_info.exam_id, work_cite_all_examinee_info.name, count(*) as pass_num\
+			from work_cite_all_examinee_info, work_cite_actual_exam_situation \
+			WHERE work_cite_all_examinee_info.exam_id = work_cite_actual_exam_situation.exam_id and \
 				(tan_id like "T%" or tan_id like "S%") and\
 				final_score > 90\
 			group by exam_id, name\
@@ -116,9 +124,9 @@ def get_award_list(request, award_id):
 			cursor.execute(query)
 			results = cursor.fetchall()
 	elif award_id == '2':
-		query = f'select all_examinee_info.exam_id, all_examinee_info.name, count(*) as pass_num\
-			from all_examinee_info, actual_exam_situation \
-			WHERE all_examinee_info.exam_id = actual_exam_situation.exam_id and \
+		query = f'select work_cite_all_examinee_info.exam_id, work_cite_all_examinee_info.name, count(*) as pass_num\
+			from work_cite_all_examinee_info, work_cite_actual_exam_situation \
+			WHERE work_cite_all_examinee_info.exam_id = work_cite_actual_exam_situation.exam_id and \
 				tan_id like "R%" and\
 				final_score > 90\
 			group by exam_id, name\
@@ -130,8 +138,8 @@ def get_award_list(request, award_id):
 			results = cursor.fetchall()
 	elif award_id == '5':
 		query = f'select tan_id, tan_name, count(*) as pass_num\
-			from all_examinee_info, actual_exam_situation \
-			WHERE all_examinee_info.exam_id = actual_exam_situation.exam_id and \
+			from work_cite_all_examinee_info, work_cite_actual_exam_situation \
+			WHERE work_cite_all_examinee_info.exam_id = work_cite_actual_exam_situation.exam_id and \
 				(tan_id like "T%" or tan_id like "S%") and\
 				final_score > 90\
 			group by tan_id, tan_name\
@@ -143,8 +151,8 @@ def get_award_list(request, award_id):
 			results = cursor.fetchall()
 	elif award_id == '6':
 		query = f'select tan_id, tan_name, count(*) as pass_num\
-			from all_examinee_info, actual_exam_situation \
-			WHERE all_examinee_info.exam_id = actual_exam_situation.exam_id and \
+			from work_cite_all_examinee_info, work_cite_actual_exam_situation \
+			WHERE work_cite_all_examinee_info.exam_id = work_cite_actual_exam_situation.exam_id and \
 				tan_id like "R%" and\
 				final_score > 90\
 			group by tan_id, tan_name\
@@ -164,7 +172,7 @@ def search_student(request):
 		exam_id = request.POST['searched']
 	else:
 		name = request.POST['searched']
-		query = f'SELECT exam_id from all_examinee_info WHERE name like "{name}%"'
+		query = f'SELECT exam_id from work_cite_all_examinee_info WHERE name like "{name}%"'
 		with connection.cursor() as cursor:
 			cursor.execute(query)
 			results = cursor.fetchall()
@@ -174,7 +182,7 @@ def search_student(request):
 	return redirect('show_score_table', exam_id=exam_id)
 def update_score_table(request, exam_id):
 	current_user_id = request.user.username
-	query = f'SELECT name from all_examinee_info WHERE exam_id = "{current_user_id}"'
+	query = f'SELECT name from work_cite_all_examinee_info WHERE exam_id = "{current_user_id}"'
 	with connection.cursor() as cursor:
 		cursor.execute(query)
 		results = cursor.fetchall()
@@ -185,7 +193,7 @@ def update_score_table(request, exam_id):
 		print(key, value)
 		if value != "" and key != "csrfmiddlewaretoken":
 			update_col, article_id = key.rsplit('_', 1)
-			query = f'UPDATE actual_exam_situation \
+			query = f'UPDATE work_cite_actual_exam_situation \
 						SET {update_col} = {value}, final_examiner = "{user_name}"\
 						WHERE exam_id = "{exam_id}" and article_id = "{article_id}";'
 			update_article[article_id] = 1
@@ -193,14 +201,14 @@ def update_score_table(request, exam_id):
 				cursor.execute(query)
 	# for key, value in update_article.items():
 	# 	final_score = 100 - value 
-	# 	query = f'UPDATE actual_exam_situation \
+	# 	query = f'UPDATE work_cite_actual_exam_situation \
 	# 				SET final_score = {final_score}\
 	# 				WHERE exam_id = "{exam_id}" and article_id = "{key}";'
 		with connection.cursor() as cursor:
 			cursor.execute(query)
 	return redirect('show_score_table', exam_id=exam_id)
 def create_user(request):
-	df = pd.read_csv('../2024_table/all_examinee_info.csv')
+	df = pd.read_csv('../2024_table/work_cite_all_examinee_info.csv')
 	df = df[df['job'] == '評鑑老師']
 	account_df = pd.DataFrame()
 	for index, row in df.iterrows():
@@ -220,14 +228,14 @@ def awards(request, exam_id="", awards_id=""):
 	if exam_id == "" and awards_id == "":
 		query = f'select award_qualify.article_name, exam_id, grade_all.name, pass_num, cho, qua_num, (pass_num = award_qualify.qua_num) as pass\
             from (select article_name, award_id, exam_id, name, SUM(final_score is not null and final_score > 90) as pass_num, COUNT(*) as cho \
-            from awards \
+            from work_cite_awards \
             inner join \
-            (select article_id, final_score, exam_id, name from actual_exam_situation) as grade \
+            (select article_id, final_score, exam_id, name from work_cite_actual_exam_situation) as grade \
             on grade.article_id = awards.article_id \
             group by award_id, article_name, exam_id, name) as grade_all\
             inner join \
             (select article_name, award_id, count(*) as qua_num\
-            from awards\
+            from work_cite_awards\
             group by award_id, article_name) as award_qualify \
             on award_qualify.award_id = grade_all.award_id \
             where award_qualify.qua_num = grade_all.cho and pass_num = award_qualify.qua_num\
