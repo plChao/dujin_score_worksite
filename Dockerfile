@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /codeForDeploy
 
 # Copy the requirements file to the working directory
-COPY requirements.txt /codeForDeploy/
+COPY . /codeForDeploy/
 
 # Install project dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt

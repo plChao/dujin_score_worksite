@@ -4,33 +4,30 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db import connection
+from .models import *
+from django.db.models import Sum, Count
 
-# from .forms import RegisterUserForm
+
 
 def index(request):
 	# 指定考試日期
-	query = 'SELECT SUM(signed), count(*) from work_cite_all_examinee_info where job = "純考生"'
-	query_f = f'select count(*) from work_cite_all_examinee_info \
-            JOIN ( \
-                SELECT exam_id, SUM(final_score IS NULL) AS unfinish \
-                FROM work_cite_actual_exam_situation GROUP BY exam_id \
-            ) AS grade_all \
-            ON grade_all.exam_id = work_cite_all_examinee_info.exam_id \
-            WHERE job = "純考生" AND unfinish = 0'
-	with connection.cursor() as cursor:
-		cursor.execute(query)
-		query_result = cursor.fetchall()[0]
-		cursor.execute(query_f)
-		finish_num = cursor.fetchall()[0][0]
+	query_result = all_examinee_info.objects.filter(job='純考生').aggregate(
+		signed_sum=Count('signed'), # sum ? 
+		all_count=Count('exam_id')
+	)
+	finish_num = actual_exam_situation.objects.filter(
+		exam_id__in=all_examinee_info.objects.filter(job='純考生').values_list('exam_id', flat=True),
+		final_score__isnull=False
+	).count()
 
-	return render(request, 'index.html', {'s': int(query_result[0]), 'all': query_result[1], 'f': int(finish_num)})
+	return render(request, 'index.html', {'s': int(query_result['signed_sum']), 'all': query_result['all_count'], 'f': int(finish_num)})
 
 def table_exists(request):
 	with connection.cursor() as cursor:
 		cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
 		msg = cursor.fetchall()
 		print(msg)
-	messages.success(request, (f"{msg}"))
+	# messages.success(request, (f"{msg}"))
 	return redirect('index')
 
 def login_user(request):
