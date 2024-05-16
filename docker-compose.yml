@@ -9,15 +9,13 @@ services:
       - MYSQL_ROOT_PASSWORD=kms6365
     ports:
       - 3306:3306
-    volumes:
-      - ./bin/datas/mysql/:/var/lib/mysql
     container_name: db
 
   djangosite:
     build: .
     image: plchao/djangosite:latest
     restart: always
-    command: python ./code/manage.py runserver 0.0.0.0:8000
+    command: bash -c 'sh ./docker_start.sh'
     ports:
       - "7788:8000"
     volumes:
