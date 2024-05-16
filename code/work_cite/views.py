@@ -11,11 +11,11 @@ from django.db.models import Sum, Count
 
 def index(request):
 	# 指定考試日期
-	query_result = all_examinee_info.objects.filter(job='純考生').aggregate(
+	query_result=all_examinee_info.objects.filter(job='純考生').aggregate(
 		signed_sum=Count('signed'), # sum ? 
 		all_count=Count('exam_id')
 	)
-	finish_num = actual_exam_situation.objects.filter(
+	finish_num=actual_exam_situation.objects.filter(
 		exam_id__in=all_examinee_info.objects.filter(job='純考生').values_list('exam_id', flat=True),
 		final_score__isnull=False
 	).count()
