@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_DATABASE=mydb
+      - MYSQL_ROOT_PASSWORD=kms6365
+    ports:
+      - 3306:3306
+    container_name: db
+
+  djangosite:
+    build: .
+    image: plchao/djangosite:latest
+    restart: always
+    command: bash -c 'sh ./docker_start.sh'
+    ports:
+      - "7788:8000"
+    # volumes:
+    #   - ./:/codeForDeploy/
+    # do not use volumes since the code on NAS will be old ones
+    environment:
+      - DJANGO_MYSQL_DATABASE=mydb
+      - DJANGO_MYSQL_USER=root
+      - DJANGO_MYSQL_PASSWORD=kms6365
+      - DJANGO_MYSQL_HOST=db
+      - DJANGO_MYSQL_PORT=3306
+    links:
+      - db
+    depends_on:
+      - db
+    container_name: djangosite
