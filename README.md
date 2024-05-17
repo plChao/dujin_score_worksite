@@ -23,8 +23,19 @@ $ python set_article_id_forR_plchao.py
 ```shell
 docker-compose up -d
 ```
-## 製作開發環境
+## 進入開發環境
 ```shell
 docker-compose up -d
 docker exec -it CONTAINER_ID /bin/bash
 ```
+## 架設到 NAS
+### 新建
+1. 建立專案: 使用 docker-compose_forNASDeploy.yml 作為設定 yml
+2. 建立網站入口
+3. 如果 django site 的 log 顯示: can not connect to db server
+   可能需要重啟 django site 的 docker
+### 更新
+1. 理論上重啟就會更新(?
+2. 沒有更新可能分成
+    1. code 沒有更新: 可能是因為 volumn 映射蓋掉
+    2. docker 沒有更新: 刪掉 image 再重新 pull 一次
