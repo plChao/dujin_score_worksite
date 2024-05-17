@@ -39,3 +39,7 @@ docker exec -it CONTAINER_ID /bin/bash
 2. 沒有更新可能分成
     1. code 沒有更新: 可能是因為 volumn 映射蓋掉
     2. docker 沒有更新: 刪掉 image 再重新 pull 一次
+### import data
+python manage.py runscript work_cite.import_data -v2
+1. article_info 不完正
+2. 切割 awards 使其不會不匹配

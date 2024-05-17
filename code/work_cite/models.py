@@ -43,4 +43,4 @@ class exams(models.Model):
 class awards(models.Model):
     award_id = models.CharField(max_length=45, primary_key=True)
     article_id = models.ForeignKey(article_info, blank=True, null=True, on_delete=models.CASCADE)
-    article_name = models.CharField(max_length=200)
+    award_name = models.CharField(max_length=200)

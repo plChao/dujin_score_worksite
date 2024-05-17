@@ -21,6 +21,8 @@ services:
     command: bash -c 'sh ./docker_start.sh'
     ports:
       - "7788:8000"
+    volumes:
+      - ./2024_table:/codeForDeploy/2024_table
     # volumes:
     #   - ./:/codeForDeploy/
     # do not use volumes since the code on NAS will be old ones
