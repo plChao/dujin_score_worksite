@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db import connection
 from .models import *
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Case, When, Q
 import logging
 
 logger = logging.getLogger('django')
@@ -75,13 +75,11 @@ def student(request):
 	teacher_info = get_object_or_404(all_examinee_info, exam_id=teacher_exam_id)
 	exam_qs = exams.objects.filter(exam_id=teacher_info)
 	examinee_list = []
-	# print(exam_qs)
 	for exam in exam_qs:
 		examinee_qs = all_examinee_info.objects.filter(
 			exam_date=exam.exam_date,
 			exam_group=exam.exam_group
 		).order_by('exam_date', 'exam_group')
-		print(examinee_qs)
 		for examinee in examinee_qs:
 			actual_score_qs = actual_exam_situation.objects.filter(
 				exam_id=examinee.exam_id
@@ -111,24 +109,18 @@ def student(request):
 	return render(request, 'student.html', {'table': examinee_list})
 
 def show_score_table(request, exam_id):
-	query_name = f'SELECT name, exam_id from work_cite_all_examinee_info WHERE exam_id = "{exam_id}"'
-	query_article = f'select article_id, correctness_minus, fluency_minus, final_score, final_examiner\
-		  from work_cite_actual_exam_situation where exam_id = "{exam_id}"\
-			order by article_id'
-	query_summary = f'select SUM(final_score > 90), SUM(final_score is not null), count(*)\
-		  from work_cite_actual_exam_situation where exam_id = "{exam_id}"'
-	with connection.cursor() as cursor:
-		cursor.execute(query_name)
-		name_result = cursor.fetchall()
-		if len(name_result) == 0:
-			messages.success(request, (f'找不到 {exam_id}'))
-			return redirect('index')
-		cursor.execute(query_article)
-		result = cursor.fetchall()
-		cursor.execute(query_summary)
-		summary = cursor.fetchall()
-	
-	return render(request, 'score_table.html', {'name': name_result[0][0], 'exam_id': name_result[0][1], 'result': result, 'summary': summary[0]})
+	examinee = get_object_or_404(all_examinee_info, exam_id=exam_id)
+	result_obj = actual_exam_situation.objects.filter(exam_id=examinee).order_by('article_id')
+	result = []
+	for row in result_obj:
+		result.append([row.article_id.article_id, row.correctness_minus, row.fluency_minus, row.final_score, row.final_examiner])
+	summary = actual_exam_situation.objects.filter(exam_id=examinee).aggregate(
+		pass_count=Count(Case(When(final_score__gt=90, then=True))),
+		finished_count=Count(Case(When(final_examiner__isnull=False, then=True))),
+		total_count=Count('exam_id')
+	)
+	return render(request, 'score_table.html', {'name': examinee.name, 'exam_id': examinee.exam_id, 'result': result, 'summary': [summary['pass_count'], summary['finished_count'], summary['total_count']]})
+
 def get_award_list(request, award_id):
 	if award_id == '1':
 		query = f'select work_cite_all_examinee_info.exam_id, work_cite_all_examinee_info.name, count(*) as pass_num\
