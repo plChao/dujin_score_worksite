@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 from django.db import connection
 from .models import *
 from django.db.models import Sum, Count
+import logging
 
-
+logger = logging.getLogger('django')
 
 def index(request):
 	filtered_data = all_examinee_info.objects.filter(job='純考生')
@@ -70,23 +71,45 @@ def get_article_content(request, article_id):
 	
 
 def student(request):
-	current_user_id = request.user.username
+	teacher_exam_id = request.user.username
+	teacher_info = get_object_or_404(all_examinee_info, exam_id=teacher_exam_id)
+	exam_qs = exams.objects.filter(exam_id=teacher_info)
+	examinee_list = []
+	# print(exam_qs)
+	for exam in exam_qs:
+		examinee_qs = all_examinee_info.objects.filter(
+			exam_date=exam.exam_date,
+			exam_group=exam.exam_group
+		).order_by('exam_date', 'exam_group')
+		print(examinee_qs)
+		for examinee in examinee_qs:
+			actual_score_qs = actual_exam_situation.objects.filter(
+				exam_id=examinee.exam_id
+			)
+			finish_num = actual_score_qs.filter(
+				final_examiner__isnull=False
+			).count()
+			article_num = actual_score_qs.count()
+			# examinee_list.append({
+			# 	'exam_id': examinee.exam_id,
+			# 	'exam_date': examinee.exam_date,
+			# 	'exam_group': examinee.exam_group,
+			# 	'name': examinee.name,
+			# 	'tan_name': examinee.tan_name,
+			# 	'finish_num': finish_num,
+			# 	'article_num': article_num,
+			# })
+			examinee_list.append([
+				examinee.exam_id,
+				examinee.exam_date,
+				examinee.exam_group,
+				examinee.name,
+				examinee.tan_name,
+				finish_num,
+				article_num,
+			])
+	return render(request, 'student.html', {'table': examinee_list})
 
-	query = f'select info.exam_id, exam_date, exam_group, name, tan_name, finish_num, article_num\
-		  from (SELECT examinee.exam_id, examinee.exam_date, examinee.exam_group, name, tan_name\
-    FROM work_cite_all_examinee_info AS examinee \
-    JOIN (SELECT exam_date, exam_group FROM work_cite_exams WHERE exam_id = "{current_user_id}")AS exam_group_table \
-    ON examinee.exam_date = exam_group_table.exam_date \
-    and examinee.exam_group = exam_group_table.exam_group) as info \
-    JOIN (SELECT exam_id, SUM(final_examiner is not null) AS finish_num, count(article_id) AS article_num \
-                FROM work_cite_actual_exam_situation \
-                GROUP BY exam_id) as number on info.exam_id = number.exam_id \
-    order by exam_date'
-	with connection.cursor() as cursor:
-		cursor.execute(query)
-		results = cursor.fetchall()
-	print(current_user_id, results)
-	return render(request, 'student.html', {'table': results})
 def show_score_table(request, exam_id):
 	query_name = f'SELECT name, exam_id from work_cite_all_examinee_info WHERE exam_id = "{exam_id}"'
 	query_article = f'select article_id, correctness_minus, fluency_minus, final_score, final_examiner\

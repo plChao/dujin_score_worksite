@@ -105,7 +105,17 @@ def import_awards(file_path):
             )
             awards_data.save()
 
+def clear_model():
+    exams.objects.all().delete()
+    actual_exam_situation.objects.all().delete()
+    awards.objects.all().delete()
+    all_examinee_info.objects.all().delete()
+    article_info.objects.all().delete()
+    tan_info.objects.all().delete()
+
 def run():
+    clear_model()
+
     import_tan_info('../2024_table/tan_info.csv')
     import_article_info('../2024_table/article_info.csv')
     import_all_examinee_info('../2024_table/all_examinee_info.csv')
