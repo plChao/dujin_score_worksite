@@ -8,7 +8,7 @@ services:
       - MYSQL_DATABASE=mydb
       - MYSQL_ROOT_PASSWORD=kms6365
     volumes:
-      - ./mysql/:/var/lib/mysql
+      - ./bin:/var/lib/mysql
     # kept the mysql data even the container have be new
     ports:
       - 3306:3306
