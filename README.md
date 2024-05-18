@@ -40,6 +40,12 @@ docker exec -it CONTAINER_ID /bin/bash
     1. code 沒有更新: 可能是因為 volumn 映射蓋掉
     2. docker 沒有更新: 刪掉 image 再重新 pull 一次
 ### import data
+> worked in local
+1. docker exec -it CONTAINER_ID /bin/bash 進入 docker
+
 python manage.py runscript work_cite.import_data -v2
 1. article_info 不完正
 2. 切割 awards 使其不會不匹配
+### create account
+1. docker exec -it CONTAINER_ID /bin/bash 進入 docker
+2. python manage.py runscript work_cite.create_users -v2

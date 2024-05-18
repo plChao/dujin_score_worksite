@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -10,11 +10,17 @@ from django.db.models import Sum, Count
 
 
 def index(request):
-	# 指定考試日期
-	query_result=all_examinee_info.objects.filter(job='純考生').aggregate(
-		signed_sum=Count('signed'), # sum ? 
-		all_count=Count('exam_id')
-	)
+	filtered_data = all_examinee_info.objects.filter(job='純考生')
+
+	# Check if the filtered data exists
+	if filtered_data.exists():
+		query_result = filtered_data.aggregate(
+			signed_sum=Sum('signed'), 
+			all_count=Count('exam_id')
+		)
+	else:
+		query_result = {'signed_sum': 0, 'all_count': 0}
+
 	finish_num=actual_exam_situation.objects.filter(
 		exam_id__in=all_examinee_info.objects.filter(job='純考生').values_list('exam_id', flat=True),
 		final_score__isnull=False
@@ -45,15 +51,9 @@ def login_user(request):
 	else:
 		return render(request, 'login.html', {})
 def about(request):
-	current_user_id = request.user.username
-
-	exam_id = f'"{current_user_id}"'
-	query = 'SELECT name from work_cite_all_examinee_info WHERE exam_id = ' + exam_id
-	with connection.cursor() as cursor:
-		cursor.execute(query)
-		results = cursor.fetchall()
-
-	return render(request, 'about.html', {'user_name': results[0][0]})
+    current_user_id = request.user.username
+    examinee_info = get_object_or_404(all_examinee_info, exam_id=current_user_id)
+    return render(request, 'about.html', {'user_name': examinee_info.name})
 def get_article_content(request, article_id):
 	import glob
 	import os
