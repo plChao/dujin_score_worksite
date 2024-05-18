@@ -202,39 +202,15 @@ def update_score_table(request, exam_id):
 
 	update_article = {}
 	for key, value in request.POST.items():
-		print(key, value)
 		if value != "" and key != "csrfmiddlewaretoken":
 			update_col, article_id = key.rsplit('_', 1)
-			query = f'UPDATE work_cite_actual_exam_situation \
-						SET {update_col} = {value}, final_examiner = "{user_name}"\
-						WHERE exam_id = "{exam_id}" and article_id = "{article_id}";'
-			update_article[article_id] = 1
-			with connection.cursor() as cursor:
-				cursor.execute(query)
-	# for key, value in update_article.items():
-	# 	final_score = 100 - value 
-	# 	query = f'UPDATE work_cite_actual_exam_situation \
-	# 				SET final_score = {final_score}\
-	# 				WHERE exam_id = "{exam_id}" and article_id = "{key}";'
-		with connection.cursor() as cursor:
-			cursor.execute(query)
+			exam_id_obj = get_object_or_404(all_examinee_info, exam_id=exam_id)
+			article_id_obj = get_object_or_404(article_info, article_id=article_id)
+			Article_Situation = get_object_or_404(actual_exam_situation, exam_id=exam_id_obj, article_id=article_id_obj)
+			setattr(Article_Situation, update_col, value)
+			Article_Situation.final_examiner = user_name
+			Article_Situation.save()
 	return redirect('show_score_table', exam_id=exam_id)
-def create_user(request):
-	df = pd.read_csv('../2024_table/work_cite_all_examinee_info.csv')
-	df = df[df['job'] == '評鑑老師']
-	account_df = pd.DataFrame()
-	for index, row in df.iterrows():
-		new_row = pd.DataFrame([{'username': row['exam_id'], 'password': 'a0' + str(row['personal_phone_num']), 'name': row['name']}])
-		print(new_row)
-		try:
-			new_user = User.objects.create_user(row['exam_id'], "", 'a0' + row['personal_phone_num'], last_name=row['name'])
-		except:
-			pass
-		account_df = pd.concat([account_df, new_row], ignore_index=True)
-		# myuser = User.objects.create_user('username', 'example@gmail.com', 'youPassword')
-	messages.success(request, ("建立使用者完畢 !"))
-	account_df.to_csv('create_account.csv', index=False)
-	return redirect('index')
 
 def awards(request, exam_id="", awards_id=""):
 	if exam_id == "" and awards_id == "":

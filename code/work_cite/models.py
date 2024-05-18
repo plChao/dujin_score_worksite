@@ -34,6 +34,24 @@ class actual_exam_situation(models.Model):
     final_score = models.IntegerField(blank=True, null=True)
     final_examiner = models.CharField(max_length=45, blank=True, null=True)
     name = models.CharField(max_length=45)
+    # class Meta:
+    #     constraints = {
+    #         models.UniqueConstraint(fields=['exam_id', 'article_id'], name='unique_exam_article_situation')
+    #     }
+
+    def save(self, *args, **kwargs):
+        if self.correctness_minus is None:
+            correctness_value = 0
+        else:
+            correctness_value = self.correctness_minus
+        
+        if self.fluency_minus is None:
+            fluency_value = 0
+        else:
+            fluency_value = self.fluency_minus
+        
+        self.final_score = max(0, 100 - int(correctness_value) - int(fluency_value))
+        super().save(*args, **kwargs)
 
 class exams(models.Model):
     exam_id = models.ForeignKey(all_examinee_info, on_delete=models.CASCADE)
