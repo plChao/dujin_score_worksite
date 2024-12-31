@@ -1,6 +1,7 @@
 *.csv
 **/__pycache__/
 **/bin/*
-articles/*
+**/articles/*
 db.sqlite3
 **/.DS_Store
+**/mysql

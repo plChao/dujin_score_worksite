@@ -48,4 +48,5 @@ python manage.py runscript work_cite.import_data -v2
 2. 切割 awards 使其不會不匹配
 ### create account
 1. docker exec -it CONTAINER_ID /bin/bash 進入 docker
-2. python manage.py runscript work_cite.create_users -v2
+2. python manage.py createsuperuser 建立 root 帳號
+3. python manage.py runscript work_cite.create_users -v2
