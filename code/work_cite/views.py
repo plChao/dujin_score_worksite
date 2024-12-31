@@ -59,7 +59,7 @@ def get_article_content(request, article_id):
 	import glob
 	import os
 	print(os.path.abspath(os.path.curdir))
-	path = glob.glob(f'./templates/articles/*{article_id}*')
+	path = glob.glob(f'./code/work_cite/templates/articles/*{article_id}*')
 	print(path)
 	if len(path) == 0:
 		messages.success(request, (f'no articel for ./templates/articles/*{article_id}*'))
@@ -82,7 +82,7 @@ def student(request):
 		).order_by('exam_date', 'exam_group')
 		for examinee in examinee_qs:
 			actual_score_qs = actual_exam_situation.objects.filter(
-				exam_id=examinee.exam_id
+				exam_id=examinee
 			)
 			finish_num = actual_score_qs.filter(
 				final_examiner__isnull=False
