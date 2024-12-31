@@ -23,6 +23,7 @@ services:
       - "7788:8000"
     volumes:
       - ./2024_table:/codeForDeploy/2024_table
+      - ./articles:/codeForDeploy/code/work_cite/templates/articles/
     # volumes:
     #   - ./:/codeForDeploy/
     # do not use volumes since the code on NAS will be old ones

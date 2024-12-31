@@ -31,9 +31,9 @@
                     <a class="edit_btn" href="{% url 'get_article_content' row.0 %}">{{ row.0 }}</a>
                 </td>
                 {% if user.is_authenticated and exam_id != request.user.username %}
-                <td><input type="number" name="correctness_minus_{{ row.0 }}" value="0"></td>
+                <td><input type="number" name="correctness_minus_{{ row.0 }}" value=""></td>
                 <td>{{ row.1 }}</td>
-                <td><input type="number" name="fluency_minus_{{ row.0 }}" value="0"></td>
+                <td><input type="number" name="fluency_minus_{{ row.0 }}" value=""></td>
                 {% else %}
                 <td>{{ row.1 }}</td>
                 {% endif %}

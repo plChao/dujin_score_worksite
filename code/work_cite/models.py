@@ -40,17 +40,10 @@ class actual_exam_situation(models.Model):
     #     }
 
     def save(self, *args, **kwargs):
-        if self.correctness_minus is None:
-            correctness_value = 0
+        if self.correctness_minus is None or self.fluency_minus is None:
+            self.final_score = None
         else:
-            correctness_value = self.correctness_minus
-        
-        if self.fluency_minus is None:
-            fluency_value = 0
-        else:
-            fluency_value = self.fluency_minus
-        
-        self.final_score = max(0, 100 - int(correctness_value) - int(fluency_value))
+            self.final_score = max(0, 100 - int(self.correctness_minus) - int(self.fluency_minus))
         super().save(*args, **kwargs)
 
 class exams(models.Model):
@@ -59,6 +52,7 @@ class exams(models.Model):
     exam_group = models.IntegerField()
 
 class awards(models.Model):
-    award_id = models.CharField(max_length=45, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    award_id = models.CharField(max_length=45)
     article_id = models.ForeignKey(article_info, blank=True, null=True, on_delete=models.CASCADE)
     award_name = models.CharField(max_length=200)

@@ -212,26 +212,35 @@ def update_score_table(request, exam_id):
 			Article_Situation.save()
 	return redirect('show_score_table', exam_id=exam_id)
 
-def awards(request, exam_id="", awards_id=""):
+def get_awards_table(request, exam_id="", awards_id=""):
 	if exam_id == "" and awards_id == "":
-		query = f'select award_qualify.article_name, exam_id, grade_all.name, pass_num, cho, qua_num, (pass_num = award_qualify.qua_num) as pass\
-            from (select article_name, award_id, exam_id, name, SUM(final_score is not null and final_score > 90) as pass_num, COUNT(*) as cho \
-            from work_cite_awards \
-            inner join \
-            (select article_id, final_score, exam_id, name from work_cite_actual_exam_situation) as grade \
-            on grade.article_id = awards.article_id \
-            group by award_id, article_name, exam_id, name) as grade_all\
-            inner join \
-            (select article_name, award_id, count(*) as qua_num\
-            from work_cite_awards\
-            group by award_id, article_name) as award_qualify \
-            on award_qualify.award_id = grade_all.award_id \
-            where award_qualify.qua_num = grade_all.cho and pass_num = award_qualify.qua_num\
-            order by award_qualify.award_id, exam_id;'
-		with connection.cursor() as cursor:
-			cursor.execute(query)
-			results = cursor.fetchall()
-		return render(request, 'awards.html', {'table': results})
+		awards_list = []
+		all_awards_id = awards.objects.values_list("award_id", flat=True).distinct()
+		examinee_qs = all_examinee_info.objects.all()
+		for each_award_id in all_awards_id:
+			award_qs = awards.objects.filter(
+				award_id = each_award_id
+			).values_list("award_name", flat=True).distinct()
+			award_name = award_qs[0]
+
+			article_constrain_ids = awards.objects.filter(
+				award_id = each_award_id
+			).values_list("article_id", flat=True)
+			constrain_count = len(article_constrain_ids)
+			print(article_constrain_ids)
+			for examinee in examinee_qs:
+				pass_count = actual_exam_situation.objects.filter(
+					exam_id=examinee,
+					article_id__in = article_constrain_ids,
+					final_score__gt=90
+				).count()
+				if constrain_count == pass_count:
+					awards_list.append([
+						award_name,
+						examinee.exam_id,
+						examinee.name,
+					])
+	return render(request, 'awards.html', {'table': awards_list})
 
 def logout_user(request):
 	logout(request)

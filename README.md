@@ -50,3 +50,6 @@ python manage.py runscript work_cite.import_data -v2
 1. docker exec -it CONTAINER_ID /bin/bash 進入 docker
 2. python manage.py createsuperuser 建立 root 帳號
 3. python manage.py runscript work_cite.create_users -v2
+
+### 有關 migrations/0001_initital.py
+1. 如果有更改 model 可能會與此檔案衝突，刪除除了 __init__.py (空白) 的檔案後，再重啟 docker 即可
